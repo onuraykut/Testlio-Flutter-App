@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "349141005052",
+    "firebase_url": "https://eslesmeapp.firebaseio.com",
+    "project_id": "eslesmeapp",
+    "storage_bucket": "eslesmeapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349141005052:android:8b4383be7a0ded15335d79",
+        "android_client_info": {
+          "package_name": "com.brothers.eslesmeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "349141005052-mbqmd30bg7mhm8gbffebaidiggp1va1s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEZPe-puDMZ_VadHdND-LuoqB5mMwRVnE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "349141005052-mbqmd30bg7mhm8gbffebaidiggp1va1s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
