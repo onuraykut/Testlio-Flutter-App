@@ -5,6 +5,8 @@ import 'package:eslesmeapp/widgets/AppBarWithScaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
+import 'testler.dart';
+
 
 class KategoriBolumu extends StatefulWidget {
   @override
@@ -54,10 +56,10 @@ Widget kategoriler() {
   ) {
     return InkWell(
       onTap: (){
-        /*Navigator.push(
+        Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => Testler(kategoriIsim)));*/
+                builder: (context) => Testler(kategoriIsim)));
       },
       child: GradientCard(
         margin: EdgeInsets.fromLTRB(25, 10, 25, 10),

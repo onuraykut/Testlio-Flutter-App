@@ -59,6 +59,8 @@ flutter:
     - assets/kategoriresimler/
     - assets/digericonlar/
     - assets/secimresimleri/
+    - assets/graphics/google-logo.png
+    - assets/graphics/flogo-HexRBG-Wht-100.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

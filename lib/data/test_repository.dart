@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 class TestRepository {
 
   FirebaseAuth _auth;
-  FirebaseUser _user;
+  User _user;
 
   TestRepository() {
     _auth = FirebaseAuth.instance;

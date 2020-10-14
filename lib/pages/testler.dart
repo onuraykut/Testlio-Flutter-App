@@ -23,18 +23,17 @@ class _TestlerState extends State<Testler> {
   WhyFarther _selection;
   String dropdownValue = '1';
 
-  List <String> spinnerItems = [
-    "1","2","3"
-  ] ;
+  List<String> spinnerItems = ["1", "2", "3"];
   @override
   Widget build(BuildContext context) {
-
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    return appBarWithScaffold(testlerTasarim(width,height), GradientColors.Background1, widget.kategori);
+    return appBarWithScaffold(testlerTasarim(width, height),
+        GradientColors.Background1, widget.kategori);
   }
-  Widget testlerTasarim (double width,double height) {
+
+  Widget testlerTasarim(double width, double height) {
     final _testBloc = BlocProvider.of<TestBloc>(context);
     _testBloc.add(FetchKategoriEvent());
     double cardWidth = width * 0.2;
@@ -43,7 +42,7 @@ class _TestlerState extends State<Testler> {
       children: <Widget>[
         SizedBox(height: 10),
         Expanded(
-          child : BlocBuilder<TestBloc,TestState>(
+          child: BlocBuilder<TestBloc, TestState>(
               bloc: _testBloc,
               builder: (context, TestState state) {
                 if (state is TestUninitialized) {
@@ -53,7 +52,7 @@ class _TestlerState extends State<Testler> {
                     child: new CircularProgressIndicator(),
                   );
                 } else if (state is TestLoaded) {
-                  return  ListView.builder(
+                  return ListView.builder(
                     itemCount: state.Tests.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
@@ -78,7 +77,8 @@ class _TestlerState extends State<Testler> {
                               ),
                               title: Text(
                                 state.Tests[index].testAdi,
-                                style: TextStyle(fontSize: 14, color: Colors.black),
+                                style: TextStyle(
+                                    fontSize: 14, color: Colors.black),
                               ),
                               subtitle: Padding(
                                 padding: const EdgeInsets.only(top: 5),
@@ -98,14 +98,12 @@ class _TestlerState extends State<Testler> {
                   );
                 } else if (state is TestError) {
                   return Text("Lütfen internete bağlanın");
-                }else {
-
+                } else {
                   return Text("-");
                 }
               }),
         ),
         Column(children: <Widget>[
-
           DropdownButton<String>(
             value: dropdownValue,
             icon: Icon(Icons.arrow_drop_down),
@@ -124,7 +122,10 @@ class _TestlerState extends State<Testler> {
             items: spinnerItems.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
-                child: Text(value,style: TextStyle(color: Colors.black),),
+                child: Text(
+                  value,
+                  style: TextStyle(color: Colors.black),
+                ),
               );
             }).toList(),
           ),
@@ -132,6 +133,7 @@ class _TestlerState extends State<Testler> {
       ],
     );
   }
+
   Widget popUp() {
     return PopupMenuButton<WhyFarther>(
       elevation: 4,
