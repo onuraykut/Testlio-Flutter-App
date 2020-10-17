@@ -38,6 +38,9 @@ dependencies:
   flutter_bloc: ^4.0.0
   get_it: ^4.0.2
   equatable: ^1.1.1
+  carousel_slider: ^1.4.1
+  progress_dialog: ^1.2.3
+  share: ^0.6.5+2
 
 dev_dependencies:
   flutter_test:

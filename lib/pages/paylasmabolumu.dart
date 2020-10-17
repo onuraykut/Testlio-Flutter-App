@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 
 class PaylasmaBolumu extends StatelessWidget {
   double width;
@@ -26,7 +27,9 @@ class PaylasmaBolumu extends StatelessWidget {
                 child: circleImages("arkilepaylas")),*/
             //InkWell(child: circleImages("KesfettePaylas")),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Share.share('https://google.com');
+              },
               child: Row(
                 children: <Widget>[
                   Container(

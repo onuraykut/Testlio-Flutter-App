@@ -36,11 +36,13 @@ Widget appBarTasarim2({@required String title,context}) {
       ),
     ],
     backgroundColor: Colors.indigo,
-    title: Text(
-      title == null ? "" : title,
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: 18,
+    title: Center(
+      child: Text(
+        title == null ? "" : title,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+        ),
       ),
     ),
     shape: RoundedRectangleBorder(

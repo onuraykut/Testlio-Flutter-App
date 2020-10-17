@@ -10,6 +10,7 @@ Widget appBarWithScaffold (Widget safeAreaWidget,LinearGradient color,String tit
       gradient: color,
     ),
     child: Scaffold(
+      
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
       appBar: appBarTasarim2(title: title,),
