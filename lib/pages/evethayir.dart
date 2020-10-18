@@ -6,6 +6,7 @@ import 'package:eslesmeapp/data/user_repository.dart';
 import 'package:eslesmeapp/model/paylasimKaydet.dart';
 import 'package:eslesmeapp/model/sorular.dart';
 import 'package:eslesmeapp/model/test.dart';
+import 'package:eslesmeapp/pages/paylasmabolumu.dart';
 import 'package:eslesmeapp/tools/domain.dart';
 import 'package:eslesmeapp/tools/progressDialog.dart';
 import 'package:eslesmeapp/widgets/CardDesingTests.dart';
@@ -107,8 +108,6 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
                   child: new CircularProgressIndicator(),
                 );
               } else if (state is TestLoaded) {
-
-
                 if(!isLoaded) {
                   test = state.test;
                   siklar = new List<int>(state.test.sorular.length);
@@ -300,7 +299,7 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
             decoration: BoxDecoration(
               //       border: border[0],
               image: DecorationImage(
-                image: AssetImage("images/digericonlar/evet.png"),
+                image: AssetImage("assets/digericonlar/evet.png"),
               ),
             ),
           ),
@@ -330,7 +329,7 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
             margin: EdgeInsets.all(10),
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("images/digericonlar/hayir.png"),
+                image: AssetImage("assets/digericonlar/hayir.png"),
               ),
             ),
           ),
@@ -440,7 +439,7 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
             margin: EdgeInsets.all(10),
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("images/digericonlar/onceki.png"),
+                image: AssetImage("assets/digericonlar/onceki.png"),
               ),
             ),
           ),
@@ -462,7 +461,7 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
             margin: EdgeInsets.all(10),
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("images/digericonlar/sonraki.png"),
+                image: AssetImage("assets/digericonlar/sonraki.png"),
               ),
             ),
           ),
@@ -484,13 +483,13 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
 
     pr = progressDialog(context);
     await pr.show();
-    var response = await http.post(Domain().getDomainApi() + "/paylasim/save",
+    var response = await http.post(Domain().getDomainApi() + "/room/save",
         headers: {"Content-type": "application/json"},
         body: paylasim.toRawJson());
     if (response.statusCode == 200) {
-      debugPrint(response.body);
+      debugPrint("dataKaydet="+response.body);
       pr.hide().then((isHidden) {
-        Navigator.pushReplacementNamed(context, '/PaylasmaBolumu',arguments: response.body);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => PaylasmaBolumu(roomId: response.body,testId: test.id,)));
       });
     } else {
       debugPrint(response.statusCode.toString());

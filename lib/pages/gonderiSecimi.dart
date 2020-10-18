@@ -1,6 +1,7 @@
 import 'package:eslesmeapp/colors/gradientcolor.dart';
 import 'package:eslesmeapp/pages/kategoriler.dart';
 import 'package:eslesmeapp/pages/paylasmabolumu.dart';
+import 'package:eslesmeapp/tools/deeplink.dart';
 import 'package:eslesmeapp/widgets/AppBarWithScaffold.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +41,9 @@ class GonderiSecimi extends StatelessWidget {
           Expanded(
             child: InkWell(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => PaylasmaBolumu()));
+                // Navigator.push(context, MaterialPageRoute(builder: (context) => PaylasmaBolumu()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
+
               },
               child: Container(
                 margin: EdgeInsets.all(25),

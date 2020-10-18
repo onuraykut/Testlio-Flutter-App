@@ -7,7 +7,10 @@ abstract class TestTekEvent extends Equatable {
 
 class FetchPopulerEvent extends TestTekEvent {}
 
-class FetchKategoriEvent extends TestTekEvent {}
+class FetchKategoriEvent extends TestTekEvent {
+  String kategori;
+  FetchKategoriEvent(this.kategori);
+}
 
 class FetchSonucEvent extends TestTekEvent {}
 

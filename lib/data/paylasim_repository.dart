@@ -25,11 +25,12 @@ class PaylasimRepository {
     FirebaseAuth _auth = FirebaseAuth.instance;
     User firebaseUser = await _auth.currentUser;
 
-    var response = await http.post(Domain().getDomainApi() + "/paylasim/save/exist",
+    var response = await http.post(Domain().getDomainApi() + "/room/cevapKaydet",
         headers: {"Content-type": "application/json"},
         body: new PaylasimExist(paylasimId,firebaseUser.uid,siklar).toRawJson());
     if (response.statusCode == 200) {
       debugPrint("res:::"+response.body);
+
       return double.parse(response.body);
     } else {
       debugPrint("error::"+response.statusCode.toString()+response.body.toString());

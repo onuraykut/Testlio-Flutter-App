@@ -8,8 +8,8 @@ class Domain {
 String domain="http://148.251.168.11";*/
 String profile="/testapp/profile/";
 String thumb="thumb/";
-String domainApi="http://192.168.1.106:8085";
-String domain="http://192.168.1.106";
+String domainApi="http://192.168.1.11:8087";
+String domain="http://192.168.1.11";
 
   String getDomain() {
     return domain;

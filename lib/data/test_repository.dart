@@ -89,5 +89,23 @@ class TestRepository {
 
   }
 
+  Future <List<Test>> getTestsFromKategori(String kategori) async{
+    // FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    var response =
+    await http.post(Domain().getDomainApi() + "/test/kategori", body: {
+      "kategori" : kategori,
+      //"id": user.uid,
+    });
+    if (response.statusCode == 200) {
+      String source = utf8.decode(response.bodyBytes);
+      debugPrint(source);
+      return (json.decode(source) as List)
+          .map((tekGonderiMap) => Test.fromJson(tekGonderiMap))
+          .toList();
+    } else {
+      debugPrint(response.statusCode.toString());
+      throw Exception('Failed to load post');
+    }
 
+  }
 }

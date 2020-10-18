@@ -26,7 +26,7 @@ class TestBloc extends Bloc<TestTekEvent, TestState> {
       }
     } else if (event is FetchKategoriEvent) {
       try {
-        List<Test> getirilenTest = testRepository.getKategoriTest();
+        List<Test> getirilenTest = await testRepository.getTestsFromKategori(event.kategori);
         yield TestLoaded(Tests: getirilenTest);
       } catch (_) {
         yield TestError();
@@ -49,7 +49,6 @@ class TestBloc extends Bloc<TestTekEvent, TestState> {
       }
     }
     else if (event is FetchTestFromIdEvent) {
-      yield TestLoading();
       try {
         Test getirilenTest = await testRepository.getTestFromId(event.testId);
         yield TestLoaded(test: getirilenTest);
@@ -59,7 +58,6 @@ class TestBloc extends Bloc<TestTekEvent, TestState> {
       }
     }
     else if (event is FetchCozdugumTestEvent) {
-      yield TestLoading();
       try {
         List<Test> getirilenTest = await testRepository.getCozdugumTestler(event.page);
         yield TestLoaded(Tests: getirilenTest);

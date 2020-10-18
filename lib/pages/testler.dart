@@ -8,6 +8,8 @@ import 'package:eslesmeapp/widgets/AppBarWithScaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'evethayir.dart';
+
 enum WhyFarther { favoritest, sonracoz, paylas }
 
 class Testler extends StatefulWidget {
@@ -35,7 +37,7 @@ class _TestlerState extends State<Testler> {
 
   Widget testlerTasarim(double width, double height) {
     final _testBloc = BlocProvider.of<TestBloc>(context);
-    _testBloc.add(FetchKategoriEvent());
+    _testBloc.add(FetchKategoriEvent(widget.kategori));
     double cardWidth = width * 0.2;
     double cardHeight = height * 0.15;
     return Column(
@@ -53,43 +55,54 @@ class _TestlerState extends State<Testler> {
                   );
                 } else if (state is TestLoaded) {
                   return ListView.builder(
-                    itemCount: state.Tests.length,
+                    itemCount: state.Tests == null ? 0 : state.Tests.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        height: cardHeight,
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: GradientCard(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                          ),
-                          gradient: GradientColors.cardProfile,
-                          child: Center(
-                            child: ListTile(
-                              leading: ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  width: width * 0.2,
-                                  height: height * 0.08,
-                                  child: Image.asset(kategoriImageURL[index],
-                                      fit: BoxFit.contain),
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EvetHayirBolumu(
+                                        id: state.Tests[index].id,
+                                      )));
+                        },
+                        child: Container(
+                          height: cardHeight,
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: GradientCard(
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                            ),
+                            gradient: GradientColors.cardProfile,
+                            child: Center(
+                              child: ListTile(
+                                leading: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    width: width * 0.2,
+                                    height: height * 0.08,
+                                    child: Image.asset(kategoriImageURL[index],
+                                        fit: BoxFit.contain),
+                                  ),
                                 ),
-                              ),
-                              title: Text(
-                                state.Tests[index].testAdi,
-                                style: TextStyle(
-                                    fontSize: 14, color: Colors.black),
-                              ),
-                              subtitle: Padding(
-                                padding: const EdgeInsets.only(top: 5),
-                                child: Text(
+                                title: Text(
+                                  state.Tests[index].testAdi,
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.black),
+                                ),
+                                subtitle: Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: Text(
 //                                      state.Tests[index].sorular.length.toString(),
-                                  5.toString(),
-                                  textAlign: TextAlign.end,
-                                  style: TextStyle(color: Colors.black),
+                                    5.toString(),
+                                    textAlign: TextAlign.end,
+                                    style: TextStyle(color: Colors.black),
+                                  ),
                                 ),
+                                trailing: popUp(),
                               ),
-                              trailing: popUp(),
                             ),
                           ),
                         ),

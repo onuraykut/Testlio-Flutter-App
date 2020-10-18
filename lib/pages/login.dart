@@ -9,9 +9,18 @@ import 'package:provider/provider.dart';
 
 import 'gonderiSecimi.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
+
   UserRepository userRepo;
+
+  var progressVisible = false;
+
   @override
   Widget build(BuildContext context) {
     userRepo = Provider.of<UserRepository>(context);
@@ -26,6 +35,10 @@ class Login extends StatelessWidget {
             _buildFacebookButton(),
             _buildGoogleButton(),
             _buildAnonymousButton(),
+            Visibility(
+              visible: progressVisible,
+              child: new CircularProgressIndicator(),
+            ),
           ],
         ),
       ),
@@ -47,14 +60,24 @@ class Login extends StatelessWidget {
       },
     );
   }
+
   Widget _buildAnonymousButton() {
+    bool isSignIn = false;
     return GoogleSignInButton(
       logoEnable: false,
       text: 'Anonim Giriş Yap',
-      onPressed: () => {
-        userRepo.signInAnonymous(),
+      onPressed: () async => {
+        _showProgress(true),
+        isSignIn = await userRepo.signInAnonymous(),
+        if (isSignIn) _showProgress(false),
         //  widget?.onGoogleClick(),
       },
     );
+  }
+
+  void _showProgress(bool isShow) {
+    setState(() {
+      progressVisible = isShow;
+    });
   }
 }
