@@ -62,7 +62,7 @@ class PaylasimExist {
   PaylasimExist(this.paylasimId, this.uid,this.cevaplar);
 
   Map<String, dynamic> toJson() => {
-    "paylasimId": paylasimId,
+    "roomId": paylasimId,
     "uid": uid,
     "cevaplar": List<dynamic>.from(cevaplar.map((x) => x)),
   };

@@ -3,10 +3,23 @@ import 'package:eslesmeapp/pages/kategoriler.dart';
 import 'package:eslesmeapp/pages/paylasmabolumu.dart';
 import 'package:eslesmeapp/tools/deeplink.dart';
 import 'package:eslesmeapp/widgets/AppBarWithScaffold.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 
-class GonderiSecimi extends StatelessWidget {
+import 'evethayir.dart';
 
+class GonderiSecimi extends StatefulWidget {
+
+  @override
+  _GonderiSecimiState createState() => _GonderiSecimiState();
+}
+
+class _GonderiSecimiState extends State<GonderiSecimi> {
+@override
+  void initState() {
+  initDynamicLinks();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return appBarWithScaffold(gonderiSecimiTasarim(context), GradientColors.Background1, "Uygulamanın Adı");
@@ -64,5 +77,47 @@ class GonderiSecimi extends StatelessWidget {
         ],
       );
     }
+
+void initDynamicLinks() async {
+  FirebaseDynamicLinks.instance.onLink(
+      onSuccess: (PendingDynamicLinkData dynamicLink) async {
+        final Uri deepLink = dynamicLink?.link;
+
+        if (deepLink != null) {
+          String path = deepLink.path.substring(1);
+          var sonuc = path.split("-");
+          // Navigator.pushNamed(context, deepLink.path);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EvetHayirBolumu(
+                  id: sonuc[0],
+                  testPaylasimId: sonuc[1],
+                ),
+              ));
+        }
+      }, onError: (OnLinkErrorException e) async {
+    print('onLinkError');
+    print(e.message);
+  });
+
+  final PendingDynamicLinkData data =
+  await FirebaseDynamicLinks.instance.getInitialLink();
+  final Uri deepLink = data?.link;
+
+  if (deepLink != null) {
+    String path = deepLink.path.substring(1);
+    var sonuc = path.split("-");
+    //  Navigator.pushNamed(context, deepLink.path,arguments: {deepLink.path});
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EvetHayirBolumu(
+            id: sonuc[0],
+            testPaylasimId: sonuc[1],
+          ),
+        ));
+  }
+}
 
 }

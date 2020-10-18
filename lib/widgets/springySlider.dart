@@ -35,15 +35,15 @@ class _SpringyState extends State<Springy> {
   tekrar_goster() {
     int y = 0;
     bool isStopped = false; //global
-
     Timer.periodic(Duration(milliseconds: 50), (timer) {
       setState(() {
         if (isStopped) {
           timer.cancel();
         }
-        y = y + 1;
+
         _SpringSliderState.sliderController._sliderPercent = y / 100;
-        if (y == widget.puan) isStopped = true;
+        if (y == widget.puan.round()) isStopped = true;
+        y = y + 1;
       });
     });
   }
@@ -77,6 +77,10 @@ class _SpringyState extends State<Springy> {
           ),
           body: new Column(
             children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text("Tebrikler bir avelsin",style: TextStyle(color: Colors.purple,fontSize: 20),),
+              ),
               new Expanded(
                 child: SpringSlider(
                     puan: widget.puan.round(),
