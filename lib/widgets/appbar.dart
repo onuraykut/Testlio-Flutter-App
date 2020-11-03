@@ -22,27 +22,14 @@ Widget appBarTasarim(String title) {
   );
 }
 
-Widget appBarTasarim2({@required String title,context}) {
+Widget appBarTasarim2({@required String title, context}) {
   return AppBar(
-    actions: <Widget>[
-      Visibility(
-        visible: context != null ? true : false,
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: InkWell(child: Icon(Icons.notifications),onTap: (){
-           Navigator.pushNamed(context, '/Bildirimler');
-          },),
-        ),
-      ),
-    ],
     backgroundColor: Colors.indigo,
-    title: Center(
-      child: Text(
-        title == null ? "" : title,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 18,
-        ),
+    title: Text(
+      title == null ? "" : title,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 18,
       ),
     ),
     shape: RoundedRectangleBorder(

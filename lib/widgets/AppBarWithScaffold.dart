@@ -1,19 +1,21 @@
-
 import 'package:eslesmeapp/widgets/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
-Widget appBarWithScaffold (Widget safeAreaWidget,LinearGradient color,String title) {
-
+Widget appBarWithScaffold(
+    Widget safeAreaWidget, LinearGradient color, String title,
+    {GlobalKey scaffoldKey}) {
   return Container(
     decoration: BoxDecoration(
       gradient: color,
     ),
     child: Scaffold(
-      
+      key: scaffoldKey,
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
-      appBar: appBarTasarim2(title: title,),
+      appBar: appBarTasarim2(
+        title: title,
+      ),
       body: Stack(
         children: <Widget>[
           ClipPath(
@@ -29,7 +31,6 @@ Widget appBarWithScaffold (Widget safeAreaWidget,LinearGradient color,String tit
           ),
         ],
       ),
-
     ),
   );
 }

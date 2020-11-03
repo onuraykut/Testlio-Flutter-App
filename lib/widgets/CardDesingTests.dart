@@ -52,15 +52,12 @@ CarouselSlider cardDesingTests({@required List<String> testVeSorular,Function on
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Spacer(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      testVeSorular[itemIndex],
-                      style: TextStyle(color: Colors.white,fontFamily: 'Cantarell',fontSize: 17,fontWeight: FontWeight.bold),
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Text(
+                    testVeSorular[itemIndex],
+                    style: TextStyle(color: Colors.white,fontFamily: 'Cantarell',fontSize: 17,fontWeight: FontWeight.bold),
+                  ),
                 ),
                 Spacer(),
                 Row(

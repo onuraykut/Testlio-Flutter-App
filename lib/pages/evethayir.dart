@@ -14,6 +14,7 @@ import 'package:eslesmeapp/widgets/appbar.dart';
 import 'package:eslesmeapp/widgets/springySlider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marquee/marquee.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -21,7 +22,7 @@ import 'package:http/http.dart' as http;
 class EvetHayirBolumu extends StatefulWidget {
   String id;
   String testPaylasimId;
-  EvetHayirBolumu({@required this.id,this.testPaylasimId});
+  EvetHayirBolumu({@required this.id, this.testPaylasimId});
 
   @override
   _EvetHayirBolumuState createState() => _EvetHayirBolumuState();
@@ -85,45 +86,65 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
     pr = ProgressDialog(context);
     heightMedia = MediaQuery.of(context).size.height;
     widthMedia = MediaQuery.of(context).size.width;
-    return Scaffold(
-      appBar: appBarTasarim2(title : testAd),
-      backgroundColor: animation.value,
-      body: Container(
-        child: testevethayirBolumu(),
-      ),
-    );
+    return  BlocBuilder<TestBloc, TestState>(
+        bloc: _testBloc,
+        builder: (context, TestState state) {
+          if (state is TestUninitialized) {
+            return Text("UNINIT");
+          } else if (state is TestLoading) {
+            return new Center(
+              child: new CircularProgressIndicator(),
+            );
+          } else if (state is TestLoaded) {
+            if (!isLoaded) {
+              test = state.test;
+              siklar = new List<int>(state.test.sorular.length);
+              border = new List<Border>(state.test.sorular.length);
+              isLoaded = true;
+            }
+            return Scaffold(
+              appBar: AppBar(
+                title: SizedBox(
+                  height: heightMedia * 0.03,
+                  width: widthMedia * 0.8,
+                  child: Center(
+                    child: Marquee(
+                      text: state.test.testAdi ?? "",
+                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),
+                      scrollAxis: Axis.horizontal,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      velocity: 35.0,
+                      startPadding: 20.0,
+                      blankSpace: 20.0,
+                    ),
+                  ),
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(30),
+                  ),
+                ),
+                iconTheme: IconThemeData(color: Colors.white),
+              ),
+              backgroundColor: animation.value,
+              body: Container(
+                child: testevethayirBolumu(),
+              ),
+            );
+//              return Container();
+          } else if (state is TestError) {
+            return Text("İnternet yok amk");
+          } else {
+            return Text("state");
+          }
+        });
   }
 
   Widget testevethayirBolumu() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        BlocBuilder<TestBloc, TestState>(
-            bloc: _testBloc,
-            builder: (context, TestState state) {
-              if (state is TestUninitialized) {
-                return Text("UNINIT");
-              } else if (state is TestLoading) {
-                return new Center(
-                  child: new CircularProgressIndicator(),
-                );
-              } else if (state is TestLoaded) {
-                if(!isLoaded) {
-                  test = state.test;
-                  siklar = new List<int>(state.test.sorular.length);
-                  border = new List<Border>(state.test.sorular.length);
-                  isLoaded = true;
-                }
-
-
-                return soruWidget();
-//              return Container();
-              } else if (state is TestError) {
-                return Text("İnternet yok amk");
-              } else {
-                return Text("state");
-              }
-            }),
+    soruWidget(),
         test != null
             ? soruSecimleri(test.sorular[soruNo].soruTipi)
             : Container(),
@@ -286,8 +307,7 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
             });
 
             carouselSlider.nextPage(
-                duration: Duration(milliseconds: 600),
-                curve: Curves.linear);
+                duration: Duration(milliseconds: 600), curve: Curves.linear);
           },
           child: AnimatedContainer(
             duration: Duration(milliseconds: 300),
@@ -317,8 +337,7 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
             });
 
             carouselSlider.nextPage(
-                duration: Duration(milliseconds: 600),
-                curve: Curves.linear);
+                duration: Duration(milliseconds: 600), curve: Curves.linear);
           },
           child: AnimatedContainer(
             duration: Duration(milliseconds: 300),
@@ -415,7 +434,9 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
             new FlatButton(
               child: new Text("Evet"),
               onPressed: () {
-                widget.testPaylasimId == null ? _dataKaydet() : _dataKaydetExist();
+                widget.testPaylasimId == null
+                    ? _dataKaydet()
+                    : _dataKaydetExist();
               },
             ),
           ],
@@ -474,22 +495,30 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
   //Çözülen testin kaydedileceği yer
   Future<void> _dataKaydet() async {
     Navigator.of(context).pop();
-    UserRepository userRepository = Provider.of<UserRepository>(context,listen: false);
+    UserRepository userRepository =
+        Provider.of<UserRepository>(context, listen: false);
 
     PaylasimKaydet paylasim = new PaylasimKaydet(
-        testID: test.id,
+        testId: widget.id,
+        testAdi: test.testAdi,
         paylasanUid: userRepository.user.uid,
         paylasanCevaplari: siklar);
-
+    debugPrint(paylasim.toString());
     pr = progressDialog(context);
     await pr.show();
     var response = await http.post(Domain().getDomainApi() + "/room/save",
         headers: {"Content-type": "application/json"},
         body: paylasim.toRawJson());
     if (response.statusCode == 200) {
-      debugPrint("dataKaydet="+response.body);
+      debugPrint("dataKaydet=" + response.body);
       pr.hide().then((isHidden) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PaylasmaBolumu(roomId: response.body,testId: test.id,)));
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PaylasmaBolumu(
+                      roomId: response.body,
+                      testId: test.id,
+                    )));
       });
     } else {
       debugPrint(response.statusCode.toString());
@@ -500,15 +529,14 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
     ProgressDialog pr = progressDialog(context);
     await pr.show();
     new PaylasimRepository()
-        .dataKaydetExist(widget.testPaylasimId,siklar)
+        .dataKaydetExist(widget.testPaylasimId, siklar)
         .then((value) => {
-      pr.hide().then((isHidden) {
+              pr.hide().then((isHidden) {
 //        Navigator.pushReplacementNamed(context, '/PaylasmaBolumu',arguments: widget.testPaylasimId);
-      debugPrint("value:"+value.toString());
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => Springy(value)));
-      })
-    });
+                debugPrint("value:" + value.toString());
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Springy(value)));
+              })
+            });
   }
-
 }

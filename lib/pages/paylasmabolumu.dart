@@ -21,19 +21,20 @@ class _PaylasmaBolumuState extends State<PaylasmaBolumu> {
 
 
   String _linkMessage;
+  String url2;
   bool _isCreatingLink = false;
   Uri url;
 
   @override
   void initState() {
     super.initState();
-    initDynamicLinks();
+     initDynamicLinks();
+    createUrl();
+
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     String paylasimId = ModalRoute.of(context).settings.arguments;
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
@@ -44,6 +45,7 @@ class _PaylasmaBolumuState extends State<PaylasmaBolumu> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             bitir_buton(context),
+            SizedBox(height: 30,),
             /*InkWell(onTap: (){
              */ /* Navigator.push(context,
                   MaterialPageRoute(builder: (context) => ArkadasListesiPaylasim(paylasimId)));
@@ -52,10 +54,10 @@ class _PaylasmaBolumuState extends State<PaylasmaBolumu> {
             },
                 child: circleImages("arkilepaylas")),*/
             //InkWell(child: circleImages("KesfettePaylas")),
+            Text('Arkadaşlarınla Paylaş',style: TextStyle(fontSize: 20),textAlign: TextAlign.start,),
             InkWell(
               onTap: () {
-                 _createDynamicLink(true);
-                // Share.share('https://google.com');
+                Share.share('https://google.com');
               },
               child: Row(
                 children: <Widget>[
@@ -95,13 +97,19 @@ class _PaylasmaBolumuState extends State<PaylasmaBolumu> {
                 ],
               ),
             ),
-            Text(_linkMessage ?? ''),
+            SelectableText(url2 ?? 'Link oluşturuluyor...'),
           ],
         ),
       ),
     );
   }
+  void createUrl() async {
+    String url3 = await _createDynamicLink(true);
 
+    setState(()  {
+      url2 = url3;
+    });
+  }
   Widget bitir_buton(BuildContext context) {
     return Align(
       alignment: Alignment.centerRight,
@@ -111,7 +119,7 @@ class _PaylasmaBolumuState extends State<PaylasmaBolumu> {
           height: 25.0,
           child: FlatButton(
             onPressed: () => {
-              Navigator.pushNamed(context, '/PaylasmaSonrasi'),
+            Navigator.of(context).popUntil((route) => route.isFirst),
             },
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25.0),
@@ -196,7 +204,7 @@ class _PaylasmaBolumuState extends State<PaylasmaBolumu> {
     }
   }
 
-  Future<void> _createDynamicLink(bool short) async {
+  Future<String> _createDynamicLink(bool short) async {
     setState(() {
       _isCreatingLink = true;
     });
@@ -223,11 +231,9 @@ class _PaylasmaBolumuState extends State<PaylasmaBolumu> {
     } else {
       url = await parameters.buildUrl();
     }
-
-    setState(() {
-      _linkMessage = url.toString();
-      _isCreatingLink = false;
-      debugPrint(_linkMessage+"--"+ url.path);
-    });
+    _linkMessage = url.toString();
+    _isCreatingLink = false;
+    debugPrint(_linkMessage+"--"+ url.path);
+    return url.toString();
   }
 }

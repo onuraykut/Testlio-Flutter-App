@@ -27,7 +27,7 @@ class PaylasimRepository {
 
     var response = await http.post(Domain().getDomainApi() + "/room/cevapKaydet",
         headers: {"Content-type": "application/json"},
-        body: new PaylasimExist(paylasimId,firebaseUser.uid,siklar).toRawJson());
+        body: new PaylasimExist(paylasimId,firebaseUser.uid,firebaseUser.displayName ?? "Anonim",siklar).toRawJson());
     if (response.statusCode == 200) {
       debugPrint("res:::"+response.body);
 
@@ -56,14 +56,16 @@ class KisiylePaylas {
 class PaylasimExist {
   String paylasimId;
   String uid;
+  String name;
   List<int> cevaplar;
 
 
-  PaylasimExist(this.paylasimId, this.uid,this.cevaplar);
+  PaylasimExist(this.paylasimId, this.uid,this.name,this.cevaplar);
 
   Map<String, dynamic> toJson() => {
     "roomId": paylasimId,
     "uid": uid,
+    "name": name,
     "cevaplar": List<dynamic>.from(cevaplar.map((x) => x)),
   };
 

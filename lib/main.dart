@@ -1,3 +1,5 @@
+import 'package:eslesmeapp/blocs/CozdugumTestlerBloc/bloc.dart';
+import 'package:eslesmeapp/blocs/SonucBloc/bloc.dart';
 import 'package:eslesmeapp/data/user_repository.dart';
 import 'package:eslesmeapp/pages/gonderiSecimi.dart';
 import 'package:eslesmeapp/pages/login.dart';
@@ -8,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'blocs/TestBloc/test_bloc.dart';
+import 'blocs/TestlerBloc/test_bloc.dart';
 import 'blocs/locator.dart';
 import 'tools/firebaseauth_provider.dart';
 
@@ -27,6 +30,15 @@ void main() async {
         providers: [
           BlocProvider<TestBloc>(
             create: (BuildContext context) => TestBloc(),
+          ),
+          BlocProvider<TestlerBloc>(
+            create: (BuildContext context) => TestlerBloc(),
+          ),
+          BlocProvider<CozdugumTestlerBloc>(
+            create: (BuildContext context) => CozdugumTestlerBloc(),
+          ),
+          BlocProvider<SonucBloc>(
+            create: (BuildContext context) => SonucBloc(),
           ),
         ],
         child: ChangeNotifierProvider<UserRepository>(

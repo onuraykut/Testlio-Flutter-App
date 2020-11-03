@@ -59,7 +59,7 @@ Widget kategoriler() {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => Testler(kategoriIsim)));
+                builder: (context) => Testler(kategori: kategoriIsim)));
       },
       child: GradientCard(
         margin: EdgeInsets.fromLTRB(25, 10, 25, 10),

@@ -5,12 +5,14 @@
 import 'dart:convert';
 
 class PaylasimKaydet {
-  String testID;
+  String testId;
+  String testAdi;
   String paylasanUid;
   List<int> paylasanCevaplari;
 
   PaylasimKaydet({
-    this.testID,
+    this.testId,
+    this.testAdi,
     this.paylasanUid,
     this.paylasanCevaplari,
   });
@@ -20,13 +22,15 @@ class PaylasimKaydet {
   String toRawJson() => json.encode(toJson());
 
   factory PaylasimKaydet.fromJson(Map<String, dynamic> json) => PaylasimKaydet(
-    testID: json["testID"],
+    testId: json["testId  "],
+    testAdi: json["testAdi"],
     paylasanUid: json["paylasanUid"],
     paylasanCevaplari: List<int>.from(json["paylasanCevaplari"].map((x) => x)),
   );
 
   Map<String, dynamic> toJson() => {
-    "testID": testID,
+    "testId": testId,
+    "testAdi": testAdi,
     "paylasanUid": paylasanUid,
     "paylasanCevaplari": List<dynamic>.from(paylasanCevaplari.map((x) => x)),
   };

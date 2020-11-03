@@ -1,6 +1,5 @@
-import 'package:eslesmeapp/blocs/TestBloc/test_bloc.dart';
-import 'package:eslesmeapp/blocs/TestBloc/test_event.dart';
-import 'package:eslesmeapp/blocs/TestBloc/test_state.dart';
+import 'package:eslesmeapp/blocs/TestlerBloc/bloc.dart';
+import 'package:eslesmeapp/blocs/TestlerBloc/test_bloc.dart';
 import 'package:eslesmeapp/colors/gradientcolor.dart';
 import 'package:eslesmeapp/tools/gradientCard.dart';
 import 'package:eslesmeapp/tools/kategoriBilgileri.dart';
@@ -14,7 +13,7 @@ enum WhyFarther { favoritest, sonracoz, paylas }
 
 class Testler extends StatefulWidget {
   var kategori;
-  Testler(this.kategori);
+  Testler({this.kategori});
 
   @override
   _TestlerState createState() => _TestlerState();
@@ -36,15 +35,16 @@ class _TestlerState extends State<Testler> {
   }
 
   Widget testlerTasarim(double width, double height) {
-    final _testBloc = BlocProvider.of<TestBloc>(context);
+    final _testBloc = BlocProvider.of<TestlerBloc>(context);
     _testBloc.add(FetchKategoriEvent(widget.kategori));
+
     double cardWidth = width * 0.2;
     double cardHeight = height * 0.15;
     return Column(
       children: <Widget>[
         SizedBox(height: 10),
         Expanded(
-          child: BlocBuilder<TestBloc, TestState>(
+          child: BlocBuilder<TestlerBloc, TestState>(
               bloc: _testBloc,
               builder: (context, TestState state) {
                 if (state is TestUninitialized) {
@@ -54,9 +54,13 @@ class _TestlerState extends State<Testler> {
                     child: new CircularProgressIndicator(),
                   );
                 } else if (state is TestLoaded) {
+                  if(state.Tests != null)
                   return ListView.builder(
                     itemCount: state.Tests == null ? 0 : state.Tests.length,
                     itemBuilder: (BuildContext context, int index) {
+                      int imageIndex=0;
+                      if(state.Tests.length>0)
+                      imageIndex = index%11;
                       return InkWell(
                         onTap: () {
                           Navigator.push(
@@ -83,7 +87,7 @@ class _TestlerState extends State<Testler> {
                                     alignment: Alignment.center,
                                     width: width * 0.2,
                                     height: height * 0.08,
-                                    child: Image.asset(kategoriImageURL[index],
+                                    child: Image.asset(kategoriImageURL[imageIndex],
                                         fit: BoxFit.contain),
                                   ),
                                 ),
@@ -93,12 +97,12 @@ class _TestlerState extends State<Testler> {
                                       fontSize: 14, color: Colors.black),
                                 ),
                                 subtitle: Padding(
-                                  padding: const EdgeInsets.only(top: 5),
+                                  padding: const EdgeInsets.only(top: 10),
                                   child: Text(
 //                                      state.Tests[index].sorular.length.toString(),
-                                    5.toString(),
+                                    "Soru sayısı: "+state.Tests[index].sorular.length.toString(),
                                     textAlign: TextAlign.end,
-                                    style: TextStyle(color: Colors.black),
+                                    style: TextStyle(color: Colors.black,fontSize: 11),
                                   ),
                                 ),
                                 trailing: popUp(),
@@ -109,6 +113,7 @@ class _TestlerState extends State<Testler> {
                       );
                     },
                   );
+                  else return null;
                 } else if (state is TestError) {
                   return Text("Lütfen internete bağlanın");
                 } else {
@@ -116,7 +121,8 @@ class _TestlerState extends State<Testler> {
                 }
               }),
         ),
-        Column(children: <Widget>[
+        
+        /*Column(children: <Widget>[
           DropdownButton<String>(
             value: dropdownValue,
             icon: Icon(Icons.arrow_drop_down),
@@ -142,7 +148,7 @@ class _TestlerState extends State<Testler> {
               );
             }).toList(),
           ),
-        ]),
+        ]),*/
       ],
     );
   }

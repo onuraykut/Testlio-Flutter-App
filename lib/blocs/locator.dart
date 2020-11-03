@@ -1,4 +1,6 @@
 
+import 'package:eslesmeapp/data/cozdugumTestler_repository.dart';
+import 'package:eslesmeapp/data/sonuc_repository.dart';
 import 'package:eslesmeapp/data/test_repository.dart';
 import 'package:eslesmeapp/data/user_repository.dart';
 import 'package:eslesmeapp/tools/class.dart';
@@ -11,5 +13,8 @@ void setupLocator(){
 
   locator.registerLazySingleton(() => TestRepository());
   locator.registerLazySingleton(() => UserRepository());
+  locator.registerLazySingleton(() => CozdugumRepository());
+  locator.registerLazySingleton(() => SonucRepository());
+
   ClassBuilder.registerClasses();
 }
