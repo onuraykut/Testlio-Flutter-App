@@ -52,7 +52,7 @@ CarouselSlider cardDesingTests({@required List<String> testVeSorular,Function on
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                // Spacer(),
+                Spacer(),
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Center(
@@ -63,7 +63,7 @@ CarouselSlider cardDesingTests({@required List<String> testVeSorular,Function on
                     ),
                   ),
                 ),
-               /* Spacer(),
+                Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -76,7 +76,7 @@ CarouselSlider cardDesingTests({@required List<String> testVeSorular,Function on
                       ),
                     ),
                   ],
-                ),*/
+                ),
               ],
             ),
           ],
