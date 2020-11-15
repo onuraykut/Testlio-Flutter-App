@@ -8,6 +8,7 @@ import 'package:eslesmeapp/widgets/AppBarWithScaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:share/share.dart';
 
 import 'evethayir.dart';
 
@@ -124,7 +125,7 @@ class _CozdugumTestlerState extends State<CozdugumTestler> {
                                       style: TextStyle(color: Colors.black),
                                     ),
                                   ),
-                                  trailing: popUp(state.rooms[index].id),
+                                  trailing: popUp(state.rooms[index].id,state.rooms[index].roomLink),
                                 ),
                               ),
                             ),
@@ -139,7 +140,8 @@ class _CozdugumTestlerState extends State<CozdugumTestler> {
                 }
               }),
         ),
-        Column(children: <Widget>[
+       ///TODO sayfalama işlemi
+       /* Column(children: <Widget>[
           DropdownButton<String>(
             value: dropdownValue,
             icon: Icon(Icons.arrow_drop_down),
@@ -165,12 +167,12 @@ class _CozdugumTestlerState extends State<CozdugumTestler> {
               );
             }).toList(),
           ),
-        ]),
+        ]),*/
       ],
     );
   }
 
-  Widget popUp(String roomId) {
+  Widget popUp(String roomId,String roomLink) {
     return PopupMenuButton<MenuItems>(
       elevation: 4,
       icon: Icon(
@@ -184,6 +186,9 @@ class _CozdugumTestlerState extends State<CozdugumTestler> {
           _showDialogDelete(roomId);
         else if(result == MenuItems.gizle)
           _showDialogHide(roomId);
+        else if(result == MenuItems.paylas)
+          Share.share(roomLink);
+
         });
       },
       itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuItems>>[

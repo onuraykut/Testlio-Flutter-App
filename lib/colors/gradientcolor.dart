@@ -308,6 +308,7 @@ class GradientColors {
   ]);
   static LinearGradient endlessriver =
   buildGradient(_beginAlignment, _endAlignment, const [
+    Color(0xff185a9d),
     Color(0xff43cea2),
     Color(0xff185a9d),
   ]);

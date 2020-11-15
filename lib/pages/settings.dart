@@ -48,10 +48,10 @@ class _SettingsState extends State<Settings> {
                 horizontal: 0,
               ),
               child: ListTile(
-                leading: CircleAvatar(
+                leading: user.photoURL !=null ? CircleAvatar(
                    backgroundImage: NetworkImage(user.photoURL),
-                ),
-                title: Text(user.displayName ?? 'Kullanıcı adı '),
+                ) : null,
+                title: Text(user.displayName ?? 'Anonim'),
                 onTap: () {},
               ),
             ),

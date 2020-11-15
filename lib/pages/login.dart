@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:eslesmeapp/data/user_repository.dart';
 import 'package:eslesmeapp/widgets/appbar.dart';
 import 'package:eslesmeapp/widgets/facebook_button.dart';
 import 'package:eslesmeapp/widgets/google_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
@@ -34,8 +37,10 @@ class _LoginState extends State<Login> {
 
   Widget _buildPageContent() {
     return Container(
+      alignment: Alignment.center,
       color: Colors.blue.shade100,
       child: ListView(
+        shrinkWrap: true,
         children: <Widget>[
           SizedBox(
             height: 30.0,
@@ -140,15 +145,15 @@ class _LoginState extends State<Login> {
   }
 
   Widget _buildAnonymousButton() {
-    bool isSignIn = false;
+    User user;
     return GoogleSignInButton(
       logoEnable: false,
       darkMode: true,
       text: 'Anonim Giriş Yap',
       onPressed: () async => {
         _showProgress(true),
-        isSignIn = await userRepo.signInAnonymous(),
-        if (isSignIn) {
+        user = await userRepo.signInAnonymous(),
+        if (user!=null) {
           _showProgress(false),
           sonrakiSayfa(),
         }
@@ -156,6 +161,9 @@ class _LoginState extends State<Login> {
       },
     );
   }
+
+
+
 
   void sonrakiSayfa() {
     Navigator.of(context).push(

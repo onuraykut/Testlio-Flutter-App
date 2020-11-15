@@ -12,6 +12,7 @@ import 'package:eslesmeapp/tools/progressDialog.dart';
 import 'package:eslesmeapp/widgets/CardDesingTests.dart';
 import 'package:eslesmeapp/widgets/appbar.dart';
 import 'package:eslesmeapp/widgets/springySlider.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marquee/marquee.dart';
@@ -35,8 +36,8 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
   int _current = 0;
   int soruNo = 0;
   double rating = 50;
-  List<int> siklar;
-  List<Border> border;
+  List<int> siklar = new List<int>(20);
+  List<Border> border = new List<Border>(20);
   double heightMedia;
   double widthMedia;
   List<double> animatedContainerSize = new List<double>(2);
@@ -48,6 +49,7 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
   String testAd;
   @override
   void initState() {
+
     animatedContainerSize[0] = 100.0;
     animatedContainerSize[1] = 100.0;
 
@@ -70,9 +72,9 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
         }
       },
     );
-
     _testBloc = BlocProvider.of<TestBloc>(context);
     _testBloc.add(FetchTestFromIdEvent(widget.id));
+
   }
 
   @override
@@ -86,58 +88,62 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
     pr = ProgressDialog(context);
     heightMedia = MediaQuery.of(context).size.height;
     widthMedia = MediaQuery.of(context).size.width;
-    return  BlocBuilder<TestBloc, TestState>(
-        bloc: _testBloc,
-        builder: (context, TestState state) {
-          if (state is TestUninitialized) {
-            return Text("UNINIT");
-          } else if (state is TestLoading) {
-            return new Center(
-              child: new CircularProgressIndicator(),
-            );
-          } else if (state is TestLoaded) {
-            if (!isLoaded) {
+    return  SafeArea(
+      child: BlocBuilder<TestBloc, TestState>(
+          bloc: _testBloc,
+          builder: (context, TestState state) {
+            if (state is TestUninitialized) {
+              return Text("UNINIT");
+            } else if (state is TestLoading) {
+              return new Center(
+                child: new CircularProgressIndicator(),
+              );
+            } else if (state is TestLoaded) {
               test = state.test;
-              siklar = new List<int>(state.test.sorular.length);
-              border = new List<Border>(state.test.sorular.length);
-              isLoaded = true;
-            }
-            return Scaffold(
-              appBar: AppBar(
-                title: SizedBox(
-                  height: heightMedia * 0.03,
-                  width: widthMedia * 0.8,
-                  child: Center(
-                    child: Marquee(
-                      text: state.test.testAdi ?? "",
-                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),
-                      scrollAxis: Axis.horizontal,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      velocity: 35.0,
-                      startPadding: 20.0,
-                      blankSpace: 20.0,
+
+              if (!isLoaded) {
+                // test = state.test;
+                siklar = new List<int>(state.test.sorular.length);
+                border = new List<Border>(state.test.sorular.length);
+                isLoaded = true;
+               }
+              return Scaffold(
+                appBar: AppBar(
+                  title: SizedBox(
+                    height: heightMedia * 0.03,
+                    width: widthMedia * 0.8,
+                    child: Center(
+                      child: Marquee(
+                        text: state.test.testAdi ?? "",
+                        style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),
+                        scrollAxis: Axis.horizontal,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        velocity: 35.0,
+                        startPadding: 20.0,
+                        blankSpace: 20.0,
+                      ),
                     ),
                   ),
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(30),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      bottom: Radius.circular(30),
+                    ),
                   ),
+                  iconTheme: IconThemeData(color: Colors.white),
                 ),
-                iconTheme: IconThemeData(color: Colors.white),
-              ),
-              backgroundColor: animation.value,
-              body: Container(
-                child: testevethayirBolumu(),
-              ),
-            );
+                backgroundColor: animation.value,
+                body: Container(
+                  child: testevethayirBolumu(),
+                ),
+              );
 //              return Container();
-          } else if (state is TestError) {
-            return Text("İnternet yok amk");
-          } else {
-            return Text("state");
-          }
-        });
+            } else if (state is TestError) {
+              return Text("İnternet yok amk");
+            } else {
+              return Text("state");
+            }
+          }),
+    );
   }
 
   Widget testevethayirBolumu() {
@@ -274,16 +280,19 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
                 margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
                 decoration: BoxDecoration(
                   /* gradient: renkler[index + 12].gradient, */
-                  gradient: GradientColors.purplewhite,
+                  gradient: GradientColors.greenbeach,
                   borderRadius: BorderRadius.circular(15.0),
                   border: /*border[soruNo] == null ? null : Border.all(width: 5) ,*/ border[
                       index],
                 ),
                 child: Center(
-                    child: Text(
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
                   test.sorular[soruNo].siklar[index],
                   style: TextStyle(color: Colors.white),
-                )),
+                ),
+                    )),
               ),
             ),
           );
@@ -358,6 +367,12 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
   }
 
   Widget bitir_buton() {
+    int sum = 0;
+
+      for(int i=0;i<test.sorular.length;i++) {
+        if ( siklar[i] != null) sum += 1;
+      }
+
     bool hasNull = false;
     return Align(
       alignment: Alignment.centerRight,
@@ -367,15 +382,20 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
           height: 25.0,
           child: FlatButton(
             onPressed: () => {
-              siklar.forEach((element) {
-                if (element == null) hasNull = true;
-              }),
+             /* siklar.forEach((element) {
+                if (test.sorular.length element == null) hasNull = true;
+              }),*/
+
+              for(int i=0;i<test.sorular.length; i++){
+              if (siklar[i] == null ) hasNull = true,
+        },
+
               if (hasNull) showEmptyDialog() else showBitirmeDialog()
             },
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25.0),
             ),
-            color: Colors.green,
+            color: sum == test.sorular.length? Colors.green : Colors.red,
             child: Row(
               // Replace with a Row for horizontal icon + text
               mainAxisSize: MainAxisSize.min,
@@ -385,12 +405,13 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
                   child: Icon(
                     Icons.done,
                     size: 15,
+                    color: Colors.white,
                   ),
                 ),
-                Text(
-                  "Bitir",
-                  style: TextStyle(fontSize: 11),
-                )
+          Text(
+            "Bitir"+" "+sum.toString()+"/"+test.sorular.length.toString(),
+            style: TextStyle(fontSize: 11,color: Colors.white),
+          ),
               ],
             ),
           ),
@@ -398,7 +419,6 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
       ),
     );
   }
-
   showEmptyDialog() {
     showDialog(
       context: context,
@@ -494,6 +514,8 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
   ///////////////////////////////////////////////////////////////////////////////////////////////////
   //Çözülen testin kaydedileceği yer
   Future<void> _dataKaydet() async {
+    // siklar.removeWhere((value) => value == null);
+
     Navigator.of(context).pop();
     UserRepository userRepository =
         Provider.of<UserRepository>(context, listen: false);
@@ -516,9 +538,9 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
             context,
             MaterialPageRoute(
                 builder: (context) => PaylasmaBolumu(
-                      roomId: response.body,
-                      testId: test.id,
-                    )));
+                  roomUrl: response.body,
+                )));
+
       });
     } else {
       debugPrint(response.statusCode.toString());
@@ -526,6 +548,8 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
   }
 
   void _dataKaydetExist() async {
+    // siklar.removeWhere((value) => value == null);
+
     ProgressDialog pr = progressDialog(context);
     await pr.show();
     new PaylasimRepository()
@@ -539,4 +563,33 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
               })
             });
   }
+
+
+  Future<String> _createDynamicLink(bool short,String testId,String roomId) async {
+
+    final DynamicLinkParameters parameters = DynamicLinkParameters(
+      uriPrefix: 'https://eslesmeapp.page.link',
+      link: Uri.parse('https://eslesmeapp.page.link/${testId}-${roomId}'),
+      androidParameters: AndroidParameters(
+        packageName: 'com.brothers.eslesmeapp',
+        minimumVersion: 0,
+      ),
+      dynamicLinkParametersOptions: DynamicLinkParametersOptions(
+        shortDynamicLinkPathLength: ShortDynamicLinkPathLength.short,
+      ),
+      iosParameters: IosParameters(
+        bundleId: 'com.google.FirebaseCppDynamicLinksTestApp.dev',
+        minimumVersion: '0',
+      ),
+    );
+    Uri url;
+    if (short) {
+      final ShortDynamicLink shortLink = await parameters.buildShortLink();
+      url = shortLink.shortUrl;
+    } else {
+      url = await parameters.buildUrl();
+    }
+    return url.toString();
+  }
+
 }

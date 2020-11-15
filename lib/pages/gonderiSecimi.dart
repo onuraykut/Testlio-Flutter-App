@@ -1,16 +1,21 @@
+import 'package:eslesmeapp/blocs/locator.dart';
 import 'package:eslesmeapp/colors/gradientcolor.dart';
 import 'package:eslesmeapp/pages/kategoriler.dart';
 import 'package:eslesmeapp/pages/paylasmabolumu.dart';
 import 'package:eslesmeapp/pages/settings.dart';
 import 'package:eslesmeapp/pages/sharedWithMe.dart';
+import 'package:eslesmeapp/pages/sorusecme_hazirlama.dart';
+import 'package:eslesmeapp/tools/PushNotificationService.dart';
 import 'package:eslesmeapp/tools/deeplink.dart';
 import 'package:eslesmeapp/widgets/AppBarWithScaffold.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'cozdugumTestler.dart';
 import 'evethayir.dart';
+import 'notificationPage.dart';
 
 class GonderiSecimi extends StatefulWidget {
   @override
@@ -18,19 +23,31 @@ class GonderiSecimi extends StatefulWidget {
 }
 
 class _GonderiSecimiState extends State<GonderiSecimi> {
+  final PushNotificationService _pushNotificationService =
+      locator<PushNotificationService>();
+  double width;
+  double height;
   @override
   void initState() {
-    initDynamicLinks();
     super.initState();
+    initDynamicLinks();
+    handleStartUpLogic();
+  }
+
+  Future handleStartUpLogic() async {
+    await _pushNotificationService.initialise();
   }
 
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
     // return appBarWithScaffold(_buildBody(context), GradientColors.Background1, "Uygulamanın Adı");
     return Scaffold(
       backgroundColor: Color(0xff6DC8F3),
       body: SafeArea(
         child: Column(
+          mainAxisSize: MainAxisSize.max,
           children: [
             Stack(
               children: [
@@ -38,18 +55,31 @@ class _GonderiSecimiState extends State<GonderiSecimi> {
                   clipper: WaveClipper(),
                   child: Container(
                     width: double.infinity,
-                    height: 200,
+                    height: height * 0.3,
                     decoration: BoxDecoration(
                       gradient: GradientColors.Background5,
                     ),
                     child: Column(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.all(16.0),
+                          padding: EdgeInsets.all(width * 0.04),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              NotificationPage()));
+                                },
+                                child: Icon(
+                                  Icons.notifications,
+                                  color: Colors.white,
+                                ),
+                              ),
                               Spacer(),
                               InkWell(
                                 onTap: () {
@@ -67,29 +97,29 @@ class _GonderiSecimiState extends State<GonderiSecimi> {
                           ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: height * 0.07,
                         ),
-                        Container(
-                            width: 250,
-                            child: Text(
-                              "Eşleşme App",
-                              style: TextStyle(
-                                  fontFamily: 'OpenSans',
-                                  fontSize: 24,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.normal),
-                              textAlign: TextAlign.center,
-                            )),
+                        Text(
+                          "Eşleşme App",
+                          style: TextStyle(
+                              fontFamily: 'OpenSans',
+                              fontSize: 24,
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal),
+                          textAlign: TextAlign.center,
+                        ),
                       ],
                     ),
                   ),
                 ),
               ],
             ),
-            SizedBox(
+            /*SizedBox(
               height: 40,
-            ),
+            ),*/
+            Spacer(),
             _buildBody(context),
+            Spacer(),
           ],
         ),
       ),
@@ -209,7 +239,7 @@ class _GonderiSecimiState extends State<GonderiSecimi> {
 
   Widget _buildBody(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(width * 0.05),
         child: Row(
           children: <Widget>[
             Expanded(
@@ -223,7 +253,7 @@ class _GonderiSecimiState extends State<GonderiSecimi> {
                               builder: (context) => KategoriBolumu()));
                     },
                     child: Container(
-                      height: 190,
+                      height: height * 0.25,
                       color: Colors.blue,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,7 +262,7 @@ class _GonderiSecimiState extends State<GonderiSecimi> {
                             title: Text(
                               "Testler",
                               style:
-                                  Theme.of(context).textTheme.display1.copyWith(
+                                  TextStyle(
                                         color: Colors.white,
                                         fontSize: 24.0,
                                       ),
@@ -242,13 +272,6 @@ class _GonderiSecimiState extends State<GonderiSecimi> {
                               color: Colors.white,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: Text(
-                              'Steps',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          )
                         ],
                       ),
                     ),
@@ -262,32 +285,29 @@ class _GonderiSecimiState extends State<GonderiSecimi> {
                               builder: (context) => SharedWithMe()));
                     },
                     child: Container(
-                      height: 120,
+                      padding: EdgeInsets.all(10),
+                      height: height * 0.15,
                       color: Colors.green,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          ListTile(
-                            title: Text(
-                              "Çözdüklerim",
-                              style:
-                                  Theme.of(context).textTheme.display1.copyWith(
-                                        color: Colors.white,
-                                        fontSize: 18.0,
-                                      ),
-                            ),
-                            trailing: Icon(
-                              FontAwesomeIcons.percentage,
-                              color: Colors.white,
-                            ),
+                          Text(
+                            "Çözdüklerim",
+                            style:
+                            TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 21.0,
+                                    ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: Text(
-                              'Avg. Heart Rate',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          )
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Icon(
+                                FontAwesomeIcons.percentage,
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -307,59 +327,73 @@ class _GonderiSecimiState extends State<GonderiSecimi> {
                               builder: (context) => CozdugumTestler()));
                     },
                     child: Container(
-                      height: 120,
+                      padding: EdgeInsets.all(10),
+                      height: height * 0.15,
                       color: Colors.red,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          ListTile(
-                            title: Text(
-                              "Paylaştıklarım",
-                              style:
-                                  Theme.of(context).textTheme.display1.copyWith(
-                                        color: Colors.white,
-                                        fontSize: 22.0,
-                                      ),
-                            ),
+                          Text(
+                            "Paylaştıklarım",
+                            style:
+                                Theme.of(context).textTheme.display1.copyWith(
+                                      color: Colors.white,
+                                      fontSize: 21.0,
+                                    ),
                           ),
-                          Center(
-                            child: Icon(
-                              FontAwesomeIcons.slideshare,
-                              color: Colors.white,
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Icon(
+                                FontAwesomeIcons.slideshare,
+                                color: Colors.white,
+                              ),
+                            ],
                           )
                         ],
                       ),
                     ),
                   ),
                   const SizedBox(height: 10.0),
-                  Container(
-                    height: 190,
-                    color: Colors.yellow,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        ListTile(
-                          title: Text(
-                            "15 kms",
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SoruHazirlama()));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      height: height * 0.25,
+                      color: Colors.yellow,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Soru Hazırlama",
                             style:
                                 Theme.of(context).textTheme.display1.copyWith(
-                                      fontSize: 24.0,
+                                      fontSize: 21.0,
                                       color: Colors.black,
                                     ),
                           ),
-                          trailing: Icon(
-                            Icons.adb,
-                            color: Colors.black,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Icon(
+                                FontAwesomeIcons.gratipay,
+                                color: Colors.black,
+                              ),
+                            ],
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16.0),
-                          child: Text(
-                            'Distance',
-                          ),
-                        )
-                      ],
+                          /* Padding(
+                            padding: const EdgeInsets.only(left: 16.0),
+                            child: Text(
+                              'Distance',
+                            ),
+                          )*/
+                        ],
+                      ),
                     ),
                   ),
                 ],

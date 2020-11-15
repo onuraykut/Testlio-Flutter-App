@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:eslesmeapp/tools/domain.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -12,12 +15,14 @@ class UserRepository with ChangeNotifier {
   User _user;
   UserDurumu _durum = UserDurumu.Idle;
   final GoogleSignIn googleSignIn = GoogleSignIn();
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   UserRepository(){
     _auth = FirebaseAuth.instance;
     _user = _auth.currentUser;
     _auth.authStateChanges().listen(_onAuthStateChanged);
   }
+
 
 
   User get user => _user;
@@ -32,18 +37,21 @@ class UserRepository with ChangeNotifier {
     _durum = value;
   }
 
-  Future<bool> signInAnonymous() async{
+  Future<User> signInAnonymous() async{
     try{
       _durum = UserDurumu.OturumAciliyor;
       notifyListeners();
       UserCredential userCredential = await _auth.signInAnonymously();
-      await saveUser(userCredential.user.uid,userCredential.user.displayName ?? "Anonim");
+      String name = 'Anonim';
+      if(userCredential.user.displayName != null || userCredential.user.displayName.isNotEmpty)
+        name = userCredential.user.displayName;
+      await saveUser(userCredential.user.uid,name);
 
-      return true;
+      return userCredential.user;
     }catch(e){
       _durum = UserDurumu.OturumAcilmamis;
       notifyListeners();
-      return false;
+      return null;
     }
   }
 
@@ -65,7 +73,6 @@ class UserRepository with ChangeNotifier {
 
         final User currentUser = _auth.currentUser;
         assert(user.uid == currentUser.uid);
-
         print('signInWithGoogle succeeded: $user');
         await saveUser(currentUser.uid,currentUser.displayName ?? "Anonim");
         return user;
@@ -93,10 +100,15 @@ class UserRepository with ChangeNotifier {
   }
 
   Future <void> saveUser(String uid,String name) async{
+    if (Platform.isIOS) iOS_Permission();
+    String token = await _firebaseMessaging.getToken();
+    print('token: '+token);
+
     var response =
     await http.post(Domain().getDomainApi() + "/user/save", body: {
       "uid": uid,
       "name": name,
+      "token": token,
     });
     if (response.statusCode == 200) {
       return true;
@@ -119,5 +131,14 @@ class UserRepository with ChangeNotifier {
       notifyListeners();
   }
 
-
+  void iOS_Permission() {
+    _firebaseMessaging.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true)
+    );
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings)
+    {
+      print("Settings registered: $settings");
+    });
+  }
 }

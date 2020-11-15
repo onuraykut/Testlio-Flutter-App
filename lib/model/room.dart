@@ -11,6 +11,7 @@ class Room {
   String olusturanUid;
   String createdDate;
   int cozenSayisi;
+  String roomLink;
 
   Room({
     this.id,
@@ -18,7 +19,8 @@ class Room {
     this.testAdi,
     this.olusturanUid,
     this.createdDate,
-    this.cozenSayisi
+    this.cozenSayisi,
+    this.roomLink
   });
 
   factory Room.fromRawJson(String str) => Room.fromJson(json.decode(str));
@@ -30,7 +32,8 @@ class Room {
       testId: json["testId"],
     testAdi: json["testAdi"],
     createdDate: json["createdDate"],
-    cozenSayisi: json["cozenSayisi"]
+    cozenSayisi: json["cozenSayisi"],
+      roomLink: json["roomLink"]
   );
 
   Map<String, dynamic> toJson() => {
@@ -39,6 +42,7 @@ class Room {
     "testAdi": testAdi,
     "olusturanUid": olusturanUid,
     "createdDate": createdDate,
-    "cozenSayisi": cozenSayisi
+    "cozenSayisi": cozenSayisi,
+    "roomLink": roomLink
   };
 }

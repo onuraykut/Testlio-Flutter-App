@@ -16,7 +16,7 @@ class Cozenler {
   factory Cozenler.fromJson(Map<String, dynamic> json) => Cozenler(
       cozenUid: json["cozenUid"],
       cozenName: json["cozenName"],
-      cevaplar: json["cevaplar"],
+      cevaplar: json["cevaplar"] == null ? null : List<int>.from(json["cevaplar"].map((x) => x)),
       sonuc: json["sonuc"]
   );
 

@@ -17,7 +17,13 @@ class Sonuclar extends StatefulWidget {
 
 class _SonuclarState extends State<Sonuclar> {
   WhyFarther _selection;
-
+  SonucBloc _sonucBloc;
+  @override
+  void initState() {
+    _sonucBloc = BlocProvider.of<SonucBloc>(context);
+    _sonucBloc.add(FetchSonucEvent(widget.roomId));
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -65,8 +71,7 @@ class _SonuclarState extends State<Sonuclar> {
   }
 
   Widget stackDesign(double cardHeight) {
-    final _sonucBloc = BlocProvider.of<SonucBloc>(context);
-    _sonucBloc.add(FetchSonucEvent(widget.roomId));
+
     return  BlocBuilder<SonucBloc,SonucState>(
         bloc: _sonucBloc,
         builder: (context, SonucState state) {

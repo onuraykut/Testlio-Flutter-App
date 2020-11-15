@@ -18,7 +18,7 @@ class Sorular {
   Map<String, dynamic> toJson() => {
     "soruTipi": soruTipi == null ? null : soruTipi,
     "soru": soru == null ? null : soru,
-    "siklar": siklar == null ? null : List<dynamic>.from(siklar.map((x) => x)),
+    "siklar":  siklar == null ?  [] : List<dynamic>.from(siklar.map((x) => x)),
   };
 
   @override

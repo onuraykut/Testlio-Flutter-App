@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:eslesmeapp/data/sonuc_repository.dart';
 import 'package:eslesmeapp/model/cozenler.dart';
 import 'package:eslesmeapp/model/user.dart';
+import 'package:flutter/material.dart';
 import 'bloc.dart';
 import '../locator.dart';
 
@@ -23,6 +24,7 @@ class SonucBloc extends Bloc<SonucEvent, SonucState> {
         List<Cozenler>  cozenler = await sonucRepository.getTestResultByRoom(event.roomId);
         yield SonucLoaded(cozenler: cozenler);
       } catch (_) {
+        debugPrint(_.toString());
         yield SonucError();
       }
     }

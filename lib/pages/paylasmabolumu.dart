@@ -6,9 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 
 class PaylasmaBolumu extends StatefulWidget {
-  String roomId;
-  String testId;
-  PaylasmaBolumu({this.roomId, this.testId});
+  String roomUrl;
+  PaylasmaBolumu({this.roomUrl});
 
   @override
   _PaylasmaBolumuState createState() => _PaylasmaBolumuState();
@@ -28,8 +27,8 @@ class _PaylasmaBolumuState extends State<PaylasmaBolumu> {
   @override
   void initState() {
     super.initState();
-     initDynamicLinks();
-    createUrl();
+     // initDynamicLinks();
+    // createUrl();
 
   }
 
@@ -57,7 +56,7 @@ class _PaylasmaBolumuState extends State<PaylasmaBolumu> {
             Text('Arkadaşlarınla Paylaş',style: TextStyle(fontSize: 20),textAlign: TextAlign.start,),
             InkWell(
               onTap: () {
-                Share.share('https://google.com');
+                Share.share(widget.roomUrl);
               },
               child: Row(
                 children: <Widget>[
@@ -97,19 +96,19 @@ class _PaylasmaBolumuState extends State<PaylasmaBolumu> {
                 ],
               ),
             ),
-            SelectableText(url2 ?? 'Link oluşturuluyor...'),
+            SelectableText(widget.roomUrl ?? 'Link oluşturuluyor...'),
           ],
         ),
       ),
     );
   }
-  void createUrl() async {
+  /*void createUrl() async {
     String url3 = await _createDynamicLink(true);
 
     setState(()  {
       url2 = url3;
     });
-  }
+  }*/
   Widget bitir_buton(BuildContext context) {
     return Align(
       alignment: Alignment.centerRight,
@@ -204,7 +203,7 @@ class _PaylasmaBolumuState extends State<PaylasmaBolumu> {
     }
   }
 
-  Future<String> _createDynamicLink(bool short) async {
+/*  Future<String> _createDynamicLink(bool short) async {
     setState(() {
       _isCreatingLink = true;
     });
@@ -235,5 +234,5 @@ class _PaylasmaBolumuState extends State<PaylasmaBolumu> {
     _isCreatingLink = false;
     debugPrint(_linkMessage+"--"+ url.path);
     return url.toString();
-  }
+  }*/
 }

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:eslesmeapp/widgets/CustomCardShapePainter.dart';
 import 'package:flutter/material.dart';
@@ -51,15 +52,18 @@ CarouselSlider cardDesingTests({@required List<String> testVeSorular,Function on
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Spacer(),
+                // Spacer(),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(
-                    testVeSorular[itemIndex],
-                    style: TextStyle(color: Colors.white,fontFamily: 'Cantarell',fontSize: 17,fontWeight: FontWeight.bold),
+                  padding: const EdgeInsets.all(8),
+                  child: Center(
+                    child: AutoSizeText(
+                      testVeSorular[itemIndex],
+                      style: TextStyle(color: Colors.white,fontFamily: 'Cantarell',fontSize: 17,fontWeight: FontWeight.bold),
+                      maxLines: 7,
+                    ),
                   ),
                 ),
-                Spacer(),
+               /* Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -72,7 +76,7 @@ CarouselSlider cardDesingTests({@required List<String> testVeSorular,Function on
                       ),
                     ),
                   ],
-                ),
+                ),*/
               ],
             ),
           ],
