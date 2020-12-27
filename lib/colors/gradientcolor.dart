@@ -403,7 +403,16 @@ class GradientColors {
     Color(0xffd30000),
     Color(0xffd30000),
   ]);
-  
+  static LinearGradient shore =
+  buildGradient(_beginAlignment, _endAlignment, const [
+    Color(0xff70e1f5),
+    Color(0xffffd194),
+  ]);
+  static LinearGradient canyoufeelnight =
+  buildGradient(_beginAlignment, _endAlignment, const [
+    Color(0xffb06ab3),
+    Color(0xff4568dc),
+  ]);
 }
 
 

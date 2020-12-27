@@ -8,6 +8,7 @@ import 'package:eslesmeapp/pages/sorusecme_hazirlama.dart';
 import 'package:eslesmeapp/tools/PushNotificationService.dart';
 import 'package:eslesmeapp/tools/deeplink.dart';
 import 'package:eslesmeapp/widgets/AppBarWithScaffold.dart';
+import 'package:eslesmeapp/widgets/anasayfaUiScreen.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -43,87 +44,7 @@ class _GonderiSecimiState extends State<GonderiSecimi> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     // return appBarWithScaffold(_buildBody(context), GradientColors.Background1, "Uygulamanın Adı");
-    return Scaffold(
-      backgroundColor: Color(0xff6DC8F3),
-      body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Stack(
-              children: [
-                ClipPath(
-                  clipper: WaveClipper(),
-                  child: Container(
-                    width: double.infinity,
-                    height: height * 0.3,
-                    decoration: BoxDecoration(
-                      gradient: GradientColors.Background5,
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.all(width * 0.04),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              NotificationPage()));
-                                },
-                                child: Icon(
-                                  Icons.notifications,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Spacer(),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Settings()));
-                                },
-                                child: Icon(
-                                  Icons.settings,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: height * 0.07,
-                        ),
-                        Text(
-                          "Eşleşme App",
-                          style: TextStyle(
-                              fontFamily: 'OpenSans',
-                              fontSize: 24,
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            /*SizedBox(
-              height: 40,
-            ),*/
-            Spacer(),
-            _buildBody(context),
-            Spacer(),
-          ],
-        ),
-      ),
-    );
+    return appBarWithScaffoldMain(GridDashboard(), GradientColors.endsunset, "Test App");
   }
 
   Widget gonderiSecimiTasarim(BuildContext context) {

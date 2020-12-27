@@ -95,8 +95,10 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
             if (state is TestUninitialized) {
               return Text("UNINIT");
             } else if (state is TestLoading) {
-              return new Center(
-                child: new CircularProgressIndicator(),
+              return Scaffold(
+                body: new Center(
+                  child: new CircularProgressIndicator(),
+                ),
               );
             } else if (state is TestLoaded) {
               test = state.test;

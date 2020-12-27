@@ -63,12 +63,15 @@ class _TestlerState extends State<Testler> {
                       imageIndex = index%11;
                       return InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EvetHayirBolumu(
-                                        id: state.Tests[index].id,
-                                      )));
+                          Future.delayed(Duration(seconds: 2), () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EvetHayirBolumu(
+                                      id: state.Tests[index].id,
+                                    )));
+                          });
+
                         },
                         child: Container(
                           height: cardHeight,

@@ -34,3 +34,41 @@ Widget appBarWithScaffold(
     ),
   );
 }
+
+Widget appBarWithScaffoldMain(
+    Widget safeAreaWidget, LinearGradient color, String title,
+    {GlobalKey scaffoldKey}) {
+  return Container(
+    decoration: BoxDecoration(
+      gradient: color,
+    ),
+    child: Scaffold(
+      key: scaffoldKey,
+      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.transparent,
+      appBar: appBarMain(
+        title: title,
+      ),
+      body: Stack(
+        children: <Widget>[
+          ClipPath(
+            //appbar'ın arka planı için hazır yapı
+            clipper: DiagonalPathClipperOne(),
+            child: Container(
+              height: 200,
+              color: Colors.white70,
+            ),
+          ),
+          SafeArea(
+            child: Column(
+              children: [
+                SizedBox(height: 130),
+                safeAreaWidget,
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
