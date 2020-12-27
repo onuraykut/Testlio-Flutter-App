@@ -49,7 +49,6 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
   String testAd;
   @override
   void initState() {
-
     animatedContainerSize[0] = 100.0;
     animatedContainerSize[1] = 100.0;
 
@@ -59,9 +58,9 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
     animation = ColorTween(begin: Colors.white, end: Colors.lightBlueAccent)
         .animate(_controller);
 
-    _controller.addListener(() {
+    /*_controller.addListener(() {
       setState(() {});
-    });
+    });*/
     _controller.forward();
     _controller.addStatusListener(
       (durum) {
@@ -74,7 +73,6 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
     );
     _testBloc = BlocProvider.of<TestBloc>(context);
     _testBloc.add(FetchTestFromIdEvent(widget.id));
-
   }
 
   @override
@@ -88,73 +86,70 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
     pr = ProgressDialog(context);
     heightMedia = MediaQuery.of(context).size.height;
     widthMedia = MediaQuery.of(context).size.width;
-    return  MaterialApp(
-      home: BlocBuilder<TestBloc, TestState>(
-          bloc: _testBloc,
-          builder: (context, TestState state) {
-            if (state is TestUninitialized) {
-              return Text("UNINIT");
-            } else if (state is TestLoading) {
-              return Scaffold(
-                body: new Center(
-                  child: new CircularProgressIndicator(
-                    backgroundColor: Colors.red,
-                  ),
+    return BlocBuilder<TestBloc, TestState>(
+        bloc: _testBloc,
+        builder: (context, TestState state) {
+          if (state is TestUninitialized) {
+            return Text("UNINIT");
+          } else if (state is TestLoading) {
+            return Scaffold(
+              body: new Center(
+                child: new CircularProgressIndicator(
+                  backgroundColor: Colors.red,
                 ),
-              );
-            } else if (state is TestLoaded) {
-              test = state.test;
+              ),
+            );
+          } else if (state is TestLoaded) {
+            test = state.test;
 
-              if (!isLoaded) {
-                // test = state.test;
-                siklar = new List<int>(state.test.sorular.length);
-                border = new List<Border>(state.test.sorular.length);
-                isLoaded = true;
-               }
-              return Scaffold(
-                appBar: AppBar(
-                  title: SizedBox(
-                    height: heightMedia * 0.03,
-                    width: widthMedia * 0.8,
-                    child: Center(
-                      child: Marquee(
-                        text: state.test.testAdi ?? "",
-                        style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),
-                        scrollAxis: Axis.horizontal,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        velocity: 35.0,
-                        startPadding: 20.0,
-                        blankSpace: 20.0,
-                      ),
-                    ),
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      bottom: Radius.circular(30),
-                    ),
-                  ),
-                  iconTheme: IconThemeData(color: Colors.white),
-                ),
-                backgroundColor: animation.value,
-                body: Container(
-                  child: testevethayirBolumu(),
-                ),
-              );
-//              return Container();
-            } else if (state is TestError) {
-              return Text("İnternet yok");
-            } else {
-              return Text("state");
+            if (!isLoaded) {
+              // test = state.test;
+              siklar = new List<int>(state.test.sorular.length);
+              border = new List<Border>(state.test.sorular.length);
+              isLoaded = true;
             }
-          }),
-    );
+            return Scaffold(
+              appBar: AppBar(
+                title: SizedBox(
+                  height: heightMedia * 0.03,
+                  width: widthMedia * 0.8,
+                  child: Center(
+                    child: Marquee(
+                      text: state.test.testAdi ?? "",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      scrollAxis: Axis.horizontal,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      velocity: 35.0,
+                      startPadding: 20.0,
+                      blankSpace: 20.0,
+                    ),
+                  ),
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(30),
+                  ),
+                ),
+                iconTheme: IconThemeData(color: Colors.white),
+              ),
+              backgroundColor: animation.value,
+              body: testevethayirBolumu(),
+            );
+//              return Container();
+          } else if (state is TestError) {
+            return Text("İnternet yok");
+          } else {
+            return Text("state");
+          }
+        });
   }
 
   Widget testevethayirBolumu() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-    soruWidget(),
+        soruWidget(),
         test != null
             ? soruSecimleri(test.sorular[soruNo].soruTipi)
             : Container(),
@@ -186,12 +181,13 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
         testVeSorular: soruAdi,
         pageChanged: (index) {
           bool hasNull = false;
-          for(int i=0;i<test.sorular.length; i++){
-          if (siklar[i] == null ) hasNull = true;
+          for (int i = 0; i < test.sorular.length; i++) {
+            if (siklar[i] == null) hasNull = true;
           }
-          if (!hasNull) showBitirmeDialog();
+          if (!hasNull)
+            showBitirmeDialog();
           else
-          onPageChanged(index);
+            onPageChanged(index);
         });
 
     return Column(
@@ -297,12 +293,12 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
                 ),
                 child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(
-                  test.sorular[soruNo].siklar[index],
-                  style: TextStyle(color: Colors.white),
-                ),
-                    )),
+                  padding: const EdgeInsets.all(4.0),
+                  child: Text(
+                    test.sorular[soruNo].siklar[index],
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )),
               ),
             ),
           );
@@ -379,9 +375,9 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
   Widget bitir_buton() {
     int sum = 0;
 
-      for(int i=0;i<test.sorular.length;i++) {
-        if ( siklar[i] != null) sum += 1;
-      }
+    for (int i = 0; i < test.sorular.length; i++) {
+      if (siklar[i] != null) sum += 1;
+    }
 
     bool hasNull = false;
     return Align(
@@ -392,20 +388,20 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
           height: 25.0,
           child: FlatButton(
             onPressed: () => {
-             /* siklar.forEach((element) {
+              /* siklar.forEach((element) {
                 if (test.sorular.length element == null) hasNull = true;
               }),*/
 
-              for(int i=0;i<test.sorular.length; i++){
-              if (siklar[i] == null ) hasNull = true,
-        },
-
+              for (int i = 0; i < test.sorular.length; i++)
+                {
+                  if (siklar[i] == null) hasNull = true,
+                },
               if (hasNull) showEmptyDialog() else showBitirmeDialog()
             },
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25.0),
             ),
-            color: sum == test.sorular.length? Colors.green : Colors.red,
+            color: sum == test.sorular.length ? Colors.green : Colors.red,
             child: Row(
               // Replace with a Row for horizontal icon + text
               mainAxisSize: MainAxisSize.min,
@@ -418,10 +414,14 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
                     color: Colors.white,
                   ),
                 ),
-          Text(
-            "Bitir"+" "+sum.toString()+"/"+test.sorular.length.toString(),
-            style: TextStyle(fontSize: 11,color: Colors.white),
-          ),
+                Text(
+                  "Bitir" +
+                      " " +
+                      sum.toString() +
+                      "/" +
+                      test.sorular.length.toString(),
+                  style: TextStyle(fontSize: 11, color: Colors.white),
+                ),
               ],
             ),
           ),
@@ -429,6 +429,7 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
       ),
     );
   }
+
   showEmptyDialog() {
     showDialog(
       context: context,
@@ -548,9 +549,8 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
             context,
             MaterialPageRoute(
                 builder: (context) => PaylasmaBolumu(
-                  roomUrl: response.body,
-                )));
-
+                      roomUrl: response.body,
+                    )));
       });
     } else {
       debugPrint(response.statusCode.toString());
@@ -574,9 +574,8 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
             });
   }
 
-
-  Future<String> _createDynamicLink(bool short,String testId,String roomId) async {
-
+  Future<String> _createDynamicLink(
+      bool short, String testId, String roomId) async {
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       uriPrefix: 'https://eslesmeapp.page.link',
       link: Uri.parse('https://eslesmeapp.page.link/${testId}-${roomId}'),
@@ -601,5 +600,4 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
     }
     return url.toString();
   }
-
 }
