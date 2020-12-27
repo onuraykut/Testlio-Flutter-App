@@ -114,7 +114,7 @@ class _NotificationPageState extends State<NotificationPage> {
                 },
               );
             } else if (state is NotificationError) {
-              return Text("İnternet yok amk");
+              return Text("İnternet yok");
             } else {
               return Text("state");
             }

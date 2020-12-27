@@ -165,7 +165,7 @@ class _SonuclarState extends State<Sonuclar> {
               ),
             );
           } else if (state is SonucError) {
-            return Text("İnternet yok amk");
+            return Text("İnternet yok");
           }else {
 
             return Text("state");

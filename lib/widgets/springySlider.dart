@@ -71,15 +71,15 @@ class _SpringyState extends State<Springy> {
             brightness: Brightness.dark,
             iconTheme:
                 new IconThemeData(color: highlightColor),
-            actions: <Widget>[
+            /*actions: <Widget>[
               _buildTextButton('SONUÇLARI İNCELE'.toUpperCase(), true, paylas)
-            ],
+            ],*/
           ),
           body: new Column(
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Text("Tebrikler bir avelsin",style: TextStyle(color: Colors.purple,fontSize: 20),),
+                child: Text("Eşleşme Oranı",style: TextStyle(color: Colors.purple,fontSize: 20),),
               ),
               new Expanded(
                 child: SpringSlider(

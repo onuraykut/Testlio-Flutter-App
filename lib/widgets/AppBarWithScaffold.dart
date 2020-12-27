@@ -37,17 +37,17 @@ Widget appBarWithScaffold(
 
 Widget appBarWithScaffoldMain(
     Widget safeAreaWidget, LinearGradient color, String title,
-    {GlobalKey scaffoldKey}) {
+    context) {
   return Container(
     decoration: BoxDecoration(
       gradient: color,
     ),
     child: Scaffold(
-      key: scaffoldKey,
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
       appBar: appBarMain(
         title: title,
+        context: context,
       ),
       body: Stack(
         children: <Widget>[
@@ -62,7 +62,7 @@ Widget appBarWithScaffoldMain(
           SafeArea(
             child: Column(
               children: [
-                SizedBox(height: 130),
+                Image.asset('assets/graphics/logo.png',height: 200,),
                 safeAreaWidget,
               ],
             ),

@@ -51,7 +51,7 @@ class _SettingsState extends State<Settings> {
                 leading: user.photoURL !=null ? CircleAvatar(
                    backgroundImage: NetworkImage(user.photoURL),
                 ) : null,
-                title: Text(user.displayName ?? 'Anonim'),
+                title: Text(user.displayName.isEmpty ?  'Anonim' :user.displayName  ,style: TextStyle(color: Colors.black),),
                 onTap: () {},
               ),
             ),

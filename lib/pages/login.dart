@@ -29,9 +29,11 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     userRepo = Provider.of<UserRepository>(context);
 
-    return Scaffold(
-      key: _scaffoldkey,
-      body: _buildPageContent(),
+    return MaterialApp(
+      home: Scaffold(
+        key: _scaffoldkey,
+        body: _buildPageContent(),
+      ),
     );
   }
 
@@ -136,7 +138,6 @@ class _LoginState extends State<Login> {
         _showProgress(true),
         userRepo.googleSignInFunc().then((result) => {
               if (result != null) {
-                _showProgress(false),
                 sonrakiSayfa(),
               }
         })
@@ -154,9 +155,9 @@ class _LoginState extends State<Login> {
         _showProgress(true),
         user = await userRepo.signInAnonymous(),
         if (user!=null) {
-          _showProgress(false),
           sonrakiSayfa(),
         }
+        else debugPrint('user null'),
         //  widget?.onGoogleClick(),
       },
     );
@@ -166,7 +167,7 @@ class _LoginState extends State<Login> {
 
 
   void sonrakiSayfa() {
-    Navigator.of(context).push(
+    Navigator.of(_scaffoldkey.currentContext).pushReplacement(
       MaterialPageRoute(
         builder: (context) {
           return GonderiSecimi();

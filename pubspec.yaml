@@ -66,9 +66,7 @@ flutter:
   assets:
     - assets/kategoriresimler/
     - assets/digericonlar/
-    - assets/secimresimleri/
-    - assets/graphics/google-logo.png
-    - assets/graphics/flogo-HexRBG-Wht-100.png
+    - assets/graphics/
     - assets/
   #   - images/a_dot_ham.jpeg
 

@@ -13,7 +13,8 @@ enum WhyFarther { favoritest, sonracoz, paylas }
 
 class Testler extends StatefulWidget {
   var kategori;
-  Testler({this.kategori});
+  int index;
+  Testler({this.kategori,this.index});
 
   @override
   _TestlerState createState() => _TestlerState();
@@ -58,9 +59,9 @@ class _TestlerState extends State<Testler> {
                   return ListView.builder(
                     itemCount: state.Tests == null ? 0 : state.Tests.length,
                     itemBuilder: (BuildContext context, int index) {
-                      int imageIndex=0;
+                      /*int imageIndex=0;
                       if(state.Tests.length>0)
-                      imageIndex = index%11;
+                      imageIndex = index%11;*/
                       return InkWell(
                         onTap: () {
                           Future.delayed(Duration(seconds: 2), () {
@@ -90,7 +91,7 @@ class _TestlerState extends State<Testler> {
                                     alignment: Alignment.center,
                                     width: width * 0.2,
                                     height: height * 0.08,
-                                    child: Image.asset(kategoriImageURL[imageIndex],
+                                    child: Image.asset(kategoriImageURL[widget.index],
                                         fit: BoxFit.contain),
                                   ),
                                 ),

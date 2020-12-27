@@ -44,7 +44,7 @@ class _GonderiSecimiState extends State<GonderiSecimi> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     // return appBarWithScaffold(_buildBody(context), GradientColors.Background1, "Uygulamanın Adı");
-    return appBarWithScaffoldMain(GridDashboard(), GradientColors.endsunset, "Test App");
+    return appBarWithScaffoldMain(GridDashboard(), GradientColors.endsunset, "Uyum Testi - Çöz Paylaş Eşleş",context);
   }
 
   Widget gonderiSecimiTasarim(BuildContext context) {

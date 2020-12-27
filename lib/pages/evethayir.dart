@@ -88,8 +88,8 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
     pr = ProgressDialog(context);
     heightMedia = MediaQuery.of(context).size.height;
     widthMedia = MediaQuery.of(context).size.width;
-    return  SafeArea(
-      child: BlocBuilder<TestBloc, TestState>(
+    return  MaterialApp(
+      home: BlocBuilder<TestBloc, TestState>(
           bloc: _testBloc,
           builder: (context, TestState state) {
             if (state is TestUninitialized) {
@@ -97,7 +97,9 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
             } else if (state is TestLoading) {
               return Scaffold(
                 body: new Center(
-                  child: new CircularProgressIndicator(),
+                  child: new CircularProgressIndicator(
+                    backgroundColor: Colors.red,
+                  ),
                 ),
               );
             } else if (state is TestLoaded) {
@@ -140,7 +142,7 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
               );
 //              return Container();
             } else if (state is TestError) {
-              return Text("İnternet yok amk");
+              return Text("İnternet yok");
             } else {
               return Text("state");
             }
@@ -183,6 +185,12 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
     carouselSlider = cardDesingTests(
         testVeSorular: soruAdi,
         pageChanged: (index) {
+          bool hasNull = false;
+          for(int i=0;i<test.sorular.length; i++){
+          if (siklar[i] == null ) hasNull = true;
+          }
+          if (!hasNull) showBitirmeDialog();
+          else
           onPageChanged(index);
         });
 

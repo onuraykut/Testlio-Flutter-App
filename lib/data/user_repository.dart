@@ -43,14 +43,13 @@ class UserRepository with ChangeNotifier {
       notifyListeners();
       UserCredential userCredential = await _auth.signInAnonymously();
       String name = 'Anonim';
-      if(userCredential.user.displayName != null || userCredential.user.displayName.isNotEmpty)
-        name = userCredential.user.displayName;
       await saveUser(userCredential.user.uid,name);
 
       return userCredential.user;
     }catch(e){
       _durum = UserDurumu.OturumAcilmamis;
       notifyListeners();
+      debugPrint(e.toString());
       return null;
     }
   }
@@ -100,6 +99,7 @@ class UserRepository with ChangeNotifier {
   }
 
   Future <void> saveUser(String uid,String name) async{
+    debugPrint(uid+'---'+name);
     if (Platform.isIOS) iOS_Permission();
     String token = await _firebaseMessaging.getToken();
     print('token: '+token);
@@ -110,6 +110,7 @@ class UserRepository with ChangeNotifier {
       "name": name,
       "token": token,
     });
+    debugPrint(response.toString());
     if (response.statusCode == 200) {
       return true;
     } else {
