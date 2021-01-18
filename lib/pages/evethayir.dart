@@ -138,7 +138,7 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
             );
 //              return Container();
           } else if (state is TestError) {
-            return Text("İnternet yok");
+            return Center(child: Text("Test Bulunamadı,gönderen kişi silmiş olabilir"));
           } else {
             return Text("state");
           }
@@ -153,7 +153,7 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
         test != null
             ? soruSecimleri(test.sorular[soruNo].soruTipi)
             : Container(),
-        bitir_buton(),
+        test != null ? bitir_buton() : Container(),
       ],
     );
   }
@@ -179,6 +179,8 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
     }
     carouselSlider = cardDesingTests(
         testVeSorular: soruAdi,
+        width: widthMedia,
+        height: heightMedia,
         pageChanged: (index) {
           bool hasNull = false;
           for (int i = 0; i < test.sorular.length; i++) {
@@ -374,6 +376,8 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
 
   Widget bitir_buton() {
     int sum = 0;
+    debugPrint('siklarlength: '+siklar.length.toString());
+    debugPrint('testlentg'+test.sorular.length.toString());
 
     for (int i = 0; i < test.sorular.length; i++) {
       if (siklar[i] != null) sum += 1;
@@ -580,7 +584,7 @@ class _EvetHayirBolumuState extends State<EvetHayirBolumu>
       uriPrefix: 'https://eslesmeapp.page.link',
       link: Uri.parse('https://eslesmeapp.page.link/${testId}-${roomId}'),
       androidParameters: AndroidParameters(
-        packageName: 'com.brothers.eslesmeapp',
+        packageName: 'com.brothersoftware.eslesmeapp',
         minimumVersion: 0,
       ),
       dynamicLinkParametersOptions: DynamicLinkParametersOptions(

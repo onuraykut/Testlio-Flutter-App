@@ -163,9 +163,6 @@ class _LoginState extends State<Login> {
     );
   }
 
-
-
-
   void sonrakiSayfa() {
     Navigator.of(_scaffoldkey.currentContext).pushReplacement(
       MaterialPageRoute(

@@ -119,7 +119,7 @@ class _SonuclarState extends State<Sonuclar> {
                               ],
                             ),
                             title: Text(
-                              state.cozenler[index].cozenName,
+                              state.cozenler[index].cozenName.isEmpty ? 'Anonim' : state.cozenler[index].cozenName,
                               style: TextStyle(fontSize: 16, color: Colors.white),
                             ),
                             subtitle: Padding(
@@ -155,7 +155,7 @@ class _SonuclarState extends State<Sonuclar> {
                                 ],
                               ),
                             ),
-                            trailing: popUp(),
+                            // trailing: popUp(),
                           ),
                         ),
                       ),

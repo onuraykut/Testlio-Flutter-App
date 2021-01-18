@@ -3,11 +3,12 @@ import 'package:eslesmeapp/pages/cozdugumTestler.dart';
 import 'package:eslesmeapp/pages/kategoriler.dart';
 import 'package:eslesmeapp/pages/sharedWithMe.dart';
 import 'package:eslesmeapp/pages/sorusecme_hazirlama.dart';
+import 'package:eslesmeapp/pages/testlerim.dart';
 import 'package:flutter/material.dart';
 
 class GridDashboard extends StatelessWidget {
   Items item1 = new Items(
-      title: "Testlerim",
+      title: "Testler",
       subtitle: "Hazır testleri kullanabilirsiniz",
        event: "",
       img: "assets/digericonlar/Quiz.png",
@@ -55,13 +56,38 @@ class GridDashboard extends StatelessWidget {
       },
       img: "assets/digericonlar/shared.png"
   );
-
+  Items item5 = new Items(
+      title: "Testler",
+      subtitle: "Hazır testleri kullanabilirsiniz",
+      event: "",
+      img: "assets/digericonlar/Quiz.png",
+      onClick: (context) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => KategoriBolumu()));
+      }
+  );
+  Items item6 = new Items(
+      title: "Testlerim",
+      subtitle: "Kendi hazırladığınız testleri kullanabilirsiniz",
+      event: "",
+      img: "assets/digericonlar/Quiz.png",
+      onClick: (context) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Testlerim()));
+      }
+  );
   @override
   Widget build(BuildContext context) {
-    List<Items> myList = [item1, item2, item3, item4];
+    List<Items> myList = [item1, item2, item3, item4,item6];
     var color = 0xff453658;
     return Flexible(
       child: GridView.count(
+        shrinkWrap: true,
+          primary: true,
           childAspectRatio: 1.0,
           padding: EdgeInsets.only(left: 16, right: 16),
           crossAxisCount: 2,

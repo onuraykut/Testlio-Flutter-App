@@ -155,7 +155,7 @@ class _SoruHazirlamaState extends State<SoruHazirlama> {
                               animatedContainerSize[0] = 1.5;
                               animatedContainerSize[1] = 1;
                               animatedContainerSize[2] = 1;
-                              secilenSoruTipi[soruNo] = 0;
+                              secilenSoruTipi[soruNo] = 2;
                             });
                           },
                         ),
@@ -194,7 +194,7 @@ class _SoruHazirlamaState extends State<SoruHazirlama> {
                               animatedContainerSize[2] = 1.5;
                               animatedContainerSize[0] = 1;
                               animatedContainerSize[1] = 1;
-                              secilenSoruTipi[soruNo] = 2;
+                              secilenSoruTipi[soruNo] = 0;
                             });
                           },
                           child: AnimatedContainer(
@@ -633,14 +633,14 @@ class _SoruHazirlamaState extends State<SoruHazirlama> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text("Test başarıyla kaydedildi.Testlerim bölümünden testi görebilirsiniz."),
+          title: new Text("Test başarıyla kaydedildi.Testlerim bölümünden testi çözebilirsiniz."),
           actions: <Widget>[
-            new FlatButton(
+            /*new FlatButton(
               child: new Text("Paylaş"),
               onPressed: () {
                 // Navigator.of(context).pop();
               },
-            ),
+            ),*/
             new FlatButton(
                 child: new Text("Kapat"),
                 onPressed: () async {

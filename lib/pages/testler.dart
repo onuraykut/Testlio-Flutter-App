@@ -1,3 +1,4 @@
+import 'package:eslesmeapp/blocs/TestBloc/test_bloc.dart';
 import 'package:eslesmeapp/blocs/TestlerBloc/bloc.dart';
 import 'package:eslesmeapp/blocs/TestlerBloc/test_bloc.dart';
 import 'package:eslesmeapp/colors/gradientcolor.dart';
@@ -67,9 +68,13 @@ class _TestlerState extends State<Testler> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => EvetHayirBolumu(
+                                  builder: (context) =>
+                                      BlocProvider(
+                                        create: (BuildContext context) => TestBloc(),
+                                        child: EvetHayirBolumu(
                                     id: state.Tests[index].id,
-                                  )));
+                                  ),
+                                      )));
 
                         },
                         child: Container(

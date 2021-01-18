@@ -14,20 +14,23 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  User user;
   final TextStyle headerStyle = TextStyle(
     color: Colors.grey.shade800,
     fontWeight: FontWeight.bold,
     fontSize: 20.0,
   );
+  var username='Anonim';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getUser();
   }
   @override
   Widget build(BuildContext context) {
+   if(getUser().displayName!=null) {
+    if(getUser().displayName.isNotEmpty)
+      username = getUser().displayName;
+   }
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
@@ -48,10 +51,10 @@ class _SettingsState extends State<Settings> {
                 horizontal: 0,
               ),
               child: ListTile(
-                leading: user.photoURL !=null ? CircleAvatar(
-                   backgroundImage: NetworkImage(user.photoURL),
+                leading: getUser().photoURL !=null ? CircleAvatar(
+                   backgroundImage: NetworkImage(getUser().photoURL),
                 ) : null,
-                title: Text(user.displayName.isEmpty ?  'Anonim' :user.displayName  ,style: TextStyle(color: Colors.black),),
+                title: Text( username  ,style: TextStyle(color: Colors.black),),
                 onTap: () {},
               ),
             ),
@@ -75,10 +78,11 @@ class _SettingsState extends State<Settings> {
     );
   }
 
-  Future<User> getUser() {
-    setState(() {
-      user = new UserRepository().user;
-    });
+  User getUser() {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    User user = _auth.currentUser;
+    return user;
+
   }
 
   Future signOut() async {

@@ -32,9 +32,9 @@ void main() async {
   await Firebase.initializeApp();
   runApp(MultiBlocProvider(
     providers: [
-      BlocProvider<TestBloc>(
+     /* BlocProvider<TestBloc>(
         create: (BuildContext context) => TestBloc(),
-      ),
+      ),*/
       BlocProvider<TestlerBloc>(
         create: (BuildContext context) => TestlerBloc(),
       ),

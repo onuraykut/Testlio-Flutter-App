@@ -108,4 +108,42 @@ class TestRepository {
     }
 
   }
+
+  Future <List<Test>> getTestlerim() async{
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    User firebaseUser = _auth.currentUser;
+    debugPrint('uid:'+firebaseUser.uid);
+    debugPrint('url: '+Domain().getDomainApi() + "/test/testlerim");
+    var response =
+    await http.post(Domain().getDomainApi() + "/test/testlerim", body: {
+      "uid" : firebaseUser.uid,
+      //"id": user.uid,
+    });
+    if (response.statusCode == 200) {
+      String source = utf8.decode(response.bodyBytes);
+      debugPrint(source);
+      return (json.decode(source) as List)
+          .map((tekGonderiMap) => Test.fromJson(tekGonderiMap))
+          .toList();
+    } else {
+      debugPrint(response.body);
+      throw Exception('Failed to load post');
+    }
+
+  }
+
+  void deleteTest(String testId) async{
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    User firebaseUser = _auth.currentUser;
+    var response =
+    await http.post(Domain().getDomainApi() + "/test/sil", body: {
+      "testId" : testId,
+      //"id": user.uid,
+    });
+    if (response.statusCode == 200) {
+    } else {
+      throw Exception('Failed to load post');
+    }
+
+  }
 }

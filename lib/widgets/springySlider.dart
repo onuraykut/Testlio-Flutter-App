@@ -56,7 +56,6 @@ class _SpringyState extends State<Springy> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'SpringySlider',
       theme: new ThemeData(
         primaryColor: Colors.white,
         highlightColor: Colors.pink,

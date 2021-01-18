@@ -1,3 +1,4 @@
+import 'package:eslesmeapp/blocs/TestBloc/test_bloc.dart';
 import 'package:eslesmeapp/blocs/locator.dart';
 import 'package:eslesmeapp/colors/gradientcolor.dart';
 import 'package:eslesmeapp/pages/kategoriler.dart';
@@ -11,6 +12,7 @@ import 'package:eslesmeapp/widgets/AppBarWithScaffold.dart';
 import 'package:eslesmeapp/widgets/anasayfaUiScreen.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -28,6 +30,7 @@ class _GonderiSecimiState extends State<GonderiSecimi> {
       locator<PushNotificationService>();
   double width;
   double height;
+
   @override
   void initState() {
     super.initState();
@@ -44,7 +47,7 @@ class _GonderiSecimiState extends State<GonderiSecimi> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     // return appBarWithScaffold(_buildBody(context), GradientColors.Background1, "Uygulamanın Adı");
-    return appBarWithScaffoldMain(GridDashboard(), GradientColors.endsunset, "Uyum Testi - Çöz Paylaş Eşleş",context);
+    return appBarWithScaffoldMain(GridDashboard(), GradientColors.endsunset, "Testlio",context);
   }
 
   Widget gonderiSecimiTasarim(BuildContext context) {
@@ -131,6 +134,7 @@ class _GonderiSecimiState extends State<GonderiSecimi> {
             ],
           ),
         ),
+
         /*Expanded(
             child: InkWell(
               onTap: (){
@@ -336,9 +340,12 @@ class _GonderiSecimiState extends State<GonderiSecimi> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => EvetHayirBolumu(
-                id: sonuc[0],
-                testPaylasimId: sonuc[1],
+              builder: (context) => BlocProvider(
+                create: (BuildContext context) => TestBloc(),
+                child: EvetHayirBolumu(
+                  id: sonuc[0],
+                  testPaylasimId: sonuc[1],
+                ),
               ),
             ));
       }
@@ -358,9 +365,12 @@ class _GonderiSecimiState extends State<GonderiSecimi> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => EvetHayirBolumu(
-              id: sonuc[0],
-              testPaylasimId: sonuc[1],
+            builder: (context) => BlocProvider(
+              create: (BuildContext context) => TestBloc(),
+              child: EvetHayirBolumu(
+                id: sonuc[0],
+                testPaylasimId: sonuc[1],
+              ),
             ),
           ));
     }

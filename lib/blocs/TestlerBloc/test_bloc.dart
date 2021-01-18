@@ -66,5 +66,14 @@ class TestlerBloc extends Bloc<TestTekEvent, TestState> {
         yield TestError();
       }
     }
+    else if (event is FetchTestlerimEvent) {
+      try {
+        List<Test> getirilenTest = await testRepository.getTestlerim();
+        yield TestLoaded(Tests: getirilenTest);
+      } catch (e) {
+        print(e);
+        yield TestError();
+      }
+    }
   }
 }

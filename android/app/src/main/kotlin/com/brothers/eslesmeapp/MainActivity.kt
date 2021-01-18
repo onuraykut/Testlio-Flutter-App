@@ -1,4 +1,4 @@
-package com.brothers.eslesmeapp
+package com.brothersoftware.eslesmeapp
 
 import io.flutter.embedding.android.FlutterActivity
 

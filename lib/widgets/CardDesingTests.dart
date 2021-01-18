@@ -3,12 +3,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:eslesmeapp/widgets/CustomCardShapePainter.dart';
 import 'package:flutter/material.dart';
 
-CarouselSlider cardDesingTests({@required List<String> testVeSorular,Function onClick,Function pageChanged,double size,GlobalKey keyButton}) {
+CarouselSlider cardDesingTests({@required List<String> testVeSorular,Function onClick,Function pageChanged,double width,double height,GlobalKey keyButton}) {
 
   return  CarouselSlider.builder(
     itemCount: testVeSorular.length,
     onPageChanged: (index) => pageChanged(index),
-    aspectRatio: size == null ? 16/9 : size,
+    height: height*0.3,
     itemBuilder: (BuildContext context, int itemIndex) => Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
@@ -69,7 +69,7 @@ CarouselSlider cardDesingTests({@required List<String> testVeSorular,Function on
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(right: 20, bottom: 20),
+                      padding: const EdgeInsets.only(right: 20, bottom: 3),
                       child: Text(
                         '${itemIndex + 1}/${testVeSorular.length}',
                         style: TextStyle(color: Colors.white),

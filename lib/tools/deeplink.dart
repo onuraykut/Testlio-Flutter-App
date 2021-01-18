@@ -68,7 +68,7 @@ class _MainScreenState extends State<MainScreen> {
       uriPrefix: 'https://eslesmeapp.page.link',
       link: Uri.parse('https://eslesmeapp.page.link/123455-665675676'),
       androidParameters: AndroidParameters(
-        packageName: 'com.brothers.eslesmeapp',
+        packageName: 'com.brothersoftware.eslesmeapp',
         minimumVersion: 0,
       ),
       dynamicLinkParametersOptions: DynamicLinkParametersOptions(

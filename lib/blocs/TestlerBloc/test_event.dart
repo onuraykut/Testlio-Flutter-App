@@ -27,3 +27,5 @@ class FetchCozdugumTestEvent extends TestTekEvent {
 
   FetchCozdugumTestEvent(this.page);
 }
+class FetchTestlerimEvent extends TestTekEvent {
+}

@@ -161,7 +161,7 @@ class _PaylasmaBolumuState extends State<PaylasmaBolumu> {
     );
   }
 
-  void initDynamicLinks() async {
+ /* void initDynamicLinks() async {
     FirebaseDynamicLinks.instance.onLink(
         onSuccess: (PendingDynamicLinkData dynamicLink) async {
       final Uri deepLink = dynamicLink?.link;
@@ -201,7 +201,7 @@ class _PaylasmaBolumuState extends State<PaylasmaBolumu> {
             ),
           ));
     }
-  }
+  }*/
 
 /*  Future<String> _createDynamicLink(bool short) async {
     setState(() {
@@ -212,7 +212,7 @@ class _PaylasmaBolumuState extends State<PaylasmaBolumu> {
       uriPrefix: 'https://eslesmeapp.page.link',
       link: Uri.parse('https://eslesmeapp.page.link/${widget.testId}-${widget.roomId}'),
       androidParameters: AndroidParameters(
-        packageName: 'com.brothers.eslesmeapp',
+        packageName: 'com.brothersoftware.eslesmeapp',
         minimumVersion: 0,
       ),
       dynamicLinkParametersOptions: DynamicLinkParametersOptions(

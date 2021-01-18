@@ -1,6 +1,11 @@
+import 'package:eslesmeapp/pages/kategoriler.dart';
+import 'package:eslesmeapp/pages/testler.dart';
+import 'package:eslesmeapp/pages/testlerim.dart';
 import 'package:eslesmeapp/widgets/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+
+import 'anasayfaUiScreen.dart';
 
 Widget appBarWithScaffold(
     Widget safeAreaWidget, LinearGradient color, String title,
@@ -38,6 +43,21 @@ Widget appBarWithScaffold(
 Widget appBarWithScaffoldMain(
     Widget safeAreaWidget, LinearGradient color, String title,
     context) {
+  var colors = 0xff453658;
+  var screenHeight = MediaQuery.of(context).size.height;
+
+  Items item5 = new Items(
+      title: "Testlerim",
+      subtitle: "Kendi hazırladığınız testleri kullanabilirsiniz",
+      event: "",
+      img: "assets/digericonlar/Quiz.png",
+      onClick: (context) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Testlerim()));
+      }
+  );
   return Container(
     decoration: BoxDecoration(
       gradient: color,
@@ -62,8 +82,9 @@ Widget appBarWithScaffoldMain(
           SafeArea(
             child: Column(
               children: [
-                Image.asset('assets/graphics/logo.png',height: 200,),
+                Image.asset('assets/graphics/logo.png',height: screenHeight*0.2,),
                 safeAreaWidget,
+
               ],
             ),
           ),
@@ -71,4 +92,6 @@ Widget appBarWithScaffoldMain(
       ),
     ),
   );
+
+
 }
